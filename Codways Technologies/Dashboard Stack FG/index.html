@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Layout Example</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div>
+
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-box">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+
+                    <div>
+                        <h2>Focus Grid</h2>
+                        <p>To-Do Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Menu -->
+                <div class="menu-title">MENU</div>
+
+                <ul class="menu">
+                    <li class="active">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-clipboard"></i>
+                        My Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        Completed Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-clock"></i>
+                        Pending Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-calendar"></i>
+                        Calendar
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </li>
+                </ul>
+
+                <!-- Labels -->
+                <div class="menu-title labels-title">LABELS</div>
+
+                <ul class="labels">
+
+                    <li>
+                        <span class="dot red"></span>
+                        High Priority
+                    </li>
+
+                    <li>
+                        <span class="dot yellow"></span>
+                        Medium Priority
+                    </li>
+
+                    <li>
+                        <span class="dot green"></span>
+                        Low Priority
+                    </li>
+
+                </ul>
+
+                <!-- Upgrade Card -->
+                <div class="upgrade-card">
+
+                    <h3>Boost Your<br>Productivity 🚀</h3>
+
+                    <p>You are doing great!</p>
+
+                    <div class="graph">
+                        <span></span>
+                    </div>
+
+                    <button>Upgrade Now</button>
+
+                </div>
+
+                <div class="collapse-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Collapse</span>
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <!-- Left Side -->
+                <div class="header-left">
+
+                    <button id="menuToggle" class="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="welcome">
+                        <h1>Welcome back, Krish! 👋</h1>
+                        <p>Track your progress and achieve more today.</p>
+                    </div>
+
+                </div>
+
+                <!-- Right Side -->
+                <div class="top-actions">
+
+                    <div class="search-box">
+                        <input type="text" placeholder="Search tasks...">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <div class="notification">
+                        <i class="fa-regular fa-bell"></i>
+                        <span>3</span>
+                    </div>
+
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+
+                    <div class="profile">
+                        <img src="https://i.pravatar.cc/60?img=57" alt="">
+                        <div>
+                            <h4>Krish Garg</h4>
+                            <span>Productive User</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="content-area">
+                <!-- Dashboard Content -->
+            </div>
+
+            <!-- Stats -->
+            <section class="stats-grid">
+
+                <div class="stat-card purple">
+                    <h4>Total Tasks</h4>
+                    <h2>150</h2>
+                    <p>↑ 12%</p>
+                </div>
+
+                <div class="stat-card green">
+                    <h4>Completed</h4>
+                    <h2>95</h2>
+                    <p>↑ 8%</p>
+                </div>
+
+                <div class="stat-card orange">
+                    <h4>Pending</h4>
+                    <h2>30</h2>
+                    <p>↓ 5%</p>
+                </div>
+
+                <div class="stat-card blue">
+                    <h4>In Progress</h4>
+                    <h2>15</h2>
+                    <p>↑ 3%</p>
+                </div>
+
+                <div class="stat-card pink">
+                    <h4>High Priority</h4>
+                    <h2>10</h2>
+                    <p>↓ 2%</p>
+                </div>
+
+                <div class="stat-card cyan">
+                    <h4>Productivity</h4>
+                    <h2>87%</h2>
+                    <p>↑ 15%</p>
+                </div>
+
+            </section>
+            <div class="dashboard-content">
+
+                <!-- TASK BOARD -->
+                <section class="task-board">
+
+                    <div class="board-header">
+
+                        <h2>Task Board</h2>
+
+                        <div class="board-actions">
+
+                            <button class="filter-btn">
+                                <i class="fa-solid fa-filter"></i>
+                                Filter
+                            </button>
+
+                            <button class="add-btn" id="openTaskModal">
+                                <i class="fa-solid fa-plus"></i>
+                                Add Task
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="board-columns">
+
+                        <!-- Pending -->
+                        <div class="task-column">
+
+                            <div class="column-header">
+                                <div class="title-group">
+                                    <h3>Pending</h3>
+                                    <span class="count orange" id="pendingCount">3</span>
+                                </div>
+
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+
+                            <div class="task-list" id="pendingTasks">
+
+                                <div class="task-card">
+                                    <h4>Design Dashboard UI</h4>
+                                    <div class="task-footer">
+                                        <span class="priority high">High</span>
+                                        <span class="date">25 May 2026</span>
+                                    </div>
+                                </div>
+
+                                <div class="task-card">
+                                    <h4>Create Sidebar Navigation</h4>
+                                    <div class="task-footer">
+                                        <span class="priority medium">Medium</span>
+                                        <span class="date">27 May 2026</span>
+                                    </div>
+                                </div>
+
+                                <div class="task-card">
+                                    <h4>Add Dark Mode</h4>
+                                    <div class="task-footer">
+                                        <span class="priority low">Low</span>
+                                        <span class="date">30 May 2026</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="column-add">+ View More</button>
+
+                        </div>
+
+                        <!-- In Progress -->
+                        <div class="task-column">
+
+                            <div class="column-header">
+                                <div class="title-group">
+                                    <h3>In Progress</h3>
+                                    <span class="count blue" id="progressCount">2</span>
+                                </div>
+
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+
+                            <div class="task-list" id="progressTasks">
+
+                                <div class="task-card">
+                                    <h4>Build Task Cards</h4>
+                                    <div class="task-footer">
+                                        <span class="priority high">High</span>
+                                        <span class="date">22 May 2026</span>
+                                    </div>
+                                </div>
+
+                                <div class="task-card">
+                                    <h4>Implement Javascript</h4>
+                                    <div class="task-footer">
+                                        <span class="priority medium">Medium</span>
+                                        <span class="date">24 May 2026</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="column-add">+ View More</button>
+
+                        </div>
+
+                        <!-- Completed -->
+                        <div class="task-column">
+
+                            <div class="column-header">
+                                <div class="title-group">
+                                    <h3>Completed</h3>
+                                    <span class="count green" id="completedCount">2</span>
+                                </div>
+
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+
+                            <div class="task-list" id="completedTasks">
+
+                                <div class="task-card completed">
+                                    <h4>Setup Project Structure</h4>
+                                    <div class="task-footer">
+                                        <span class="priority low">Low</span>
+                                        <span class="date">18 May 2026</span>
+                                    </div>
+                                </div>
+
+                                <div class="task-card completed">
+                                    <h4>Create Responsive Layout</h4>
+                                    <div class="task-footer">
+                                        <span class="priority medium">Medium</span>
+                                        <span class="date">20 May 2026</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button class="column-add">+ View More</button>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- ADD TASK MODAL -->
+                <div class="task-modal" id="taskModal">
+
+                    <div class="task-modal-content">
+
+                        <button class="close-modal" id="closeModal">×</button>
+
+                        <h2>Add New Task</h2>
+
+                        <input type="text" id="taskName" placeholder="Task Name">
+
+                        <input type="date" id="taskDate">
+
+                        <select id="taskLabel">
+                            <option value="high">High Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="low">Low Priority</option>
+                        </select>
+
+                        <select id="taskCategory">
+                            <option value="pending">Pending</option>
+                            <option value="progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+
+                        <button id="saveTask">Add Task</button>
+
+                    </div>
+                </div>
+
+                <!-- Future Right Panel -->
+                <aside class="right-panel">
+
+                    <!-- Today's Progress -->
+                    <div class="right-card progress-card">
+
+                        <h3>Today's Progress</h3>
+
+                        <div class="progress-circle">
+                            <span>75%</span>
+                        </div>
+
+                        <h4>Great Progress! 🎉</h4>
+
+                        <p>Keep it up and achieve your goals.</p>
+
+                    </div>
+
+                    <!-- Upcoming Tasks -->
+                    <div class="right-card upcoming-card">
+
+                        <div class="card-header">
+                            <h3>Upcoming Tasks</h3>
+                            <a href="#">View All</a>
+                        </div>
+
+                        <div class="upcoming-task">
+
+                            <div class="task-icon purple">
+                                <i class="fa-regular fa-calendar"></i>
+                            </div>
+
+                            <div class="task-info">
+                                <h4>Team Meeting</h4>
+                                <span>22 May, 10:00 AM</span>
+                            </div>
+
+                        </div>
+
+                        <div class="upcoming-task">
+
+                            <div class="task-icon gray">
+                                <i class="fa-regular fa-calendar"></i>
+                            </div>
+
+                            <div class="task-info">
+                                <h4>Project Review</h4>
+                                <span>23 May, 02:00 PM</span>
+                            </div>
+
+                        </div>
+
+                        <div class="upcoming-task">
+
+                            <div class="task-icon gray">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+
+                            <div class="task-info">
+                                <h4>Client Call</h4>
+                                <span>24 May, 11:00 AM</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </aside>
+
+            </div>
+
+            <!-- ================= PRODUCTIVITY + ACTIVITY ================= -->
+
+            <section class="bottom-widgets">
+
+                <!-- Productivity Overview -->
+
+                <div class="bottom-card productivity-overview">
+
+                    <h3>Productivity Overview</h3>
+
+                    <p class="overview-text">
+                        You are more productive than 70% of users this week.
+                    </p>
+
+                    <div class="progress-stats">
+
+                        <div class="mini-progress">
+                            <div class="circle circle-purple">
+                                <span>85%</span>
+                            </div>
+                            <h5>Daily Progress</h5>
+                        </div>
+
+                        <div class="mini-progress">
+                            <div class="circle circle-green">
+                                <span>65%</span>
+                            </div>
+                            <h5>Weekly Progress</h5>
+                        </div>
+
+                        <div class="mini-progress">
+                            <div class="circle circle-orange">
+                                <span>45%</span>
+                            </div>
+                            <h5>Monthly Progress</h5>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Recent Activity -->
+
+                <div class="bottom-card recent-activity">
+
+                    <h3>Recent Activity</h3>
+
+                    <div class="activity-list" id="activityList">
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon green-bg">
+                                <i class="fa-solid fa-square-check"></i>
+                            </div>
+
+                            <div class="activity-content">
+                                <h4>Task "Design Dashboard UI" added</h4>
+                                <span>2 minutes ago</span>
+                            </div>
+
+                        </div>
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon blue-bg">
+                                <i class="fa-regular fa-circle"></i>
+                            </div>
+
+                            <div class="activity-content">
+                                <h4>Task "Build Task Cards" in progress</h4>
+                                <span>15 minutes ago</span>
+                            </div>
+
+                        </div>
+
+                        <div class="activity-item">
+
+                            <div class="activity-icon light-green-bg">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+
+                            <div class="activity-content">
+                                <h4>Task "Setup Project Structure" completed</h4>
+                                <span>1 hour ago</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <a href="#" class="activity-link">
+                        View All Activity
+                    </a>
+
+                </div>
+
+                <div class="productivity-card">
+
+                    <div class="productivity-header">
+                        <h3>Productivity</h3>
+
+                        <div class="week-select">
+                            This Week
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <div class="y-axis">
+                            <span>100%</span>
+                            <span>50%</span>
+                            <span>0%</span>
+                        </div>
+
+                        <div class="chart-area">
+
+                            <svg viewBox="0 0 300 120">
+
+                                <path d="M15 80
+                       C35 95,45 35,70 40
+                       C95 45,95 75,120 70
+                       C145 65,150 25,175 30
+                       C200 35,205 90,230 80
+                       C250 70,255 75,285 35" fill="none" stroke="#6D4AFF" stroke-width="3" stroke-linecap="round" />
+
+                                <circle cx="15" cy="80" r="4" />
+                                <circle cx="70" cy="40" r="4" />
+                                <circle cx="120" cy="70" r="4" />
+                                <circle cx="175" cy="30" r="4" />
+                                <circle cx="230" cy="80" r="4" />
+                                <circle cx="285" cy="35" r="4" />
+
+                            </svg>
+
+                            <div class="days">
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                                <span>Sun</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+        </main>
+        <script src="script.js"></script>
+</body>
