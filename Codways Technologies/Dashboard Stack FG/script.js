@@ -309,3 +309,72 @@ window.addEventListener("resize", () => {
     });
 
 }); 
+
+// =========================
+// LOGOUT
+// =========================
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn?.addEventListener("click", () => {
+
+    localStorage.removeItem("isLoggedIn");
+
+    window.location.href = "index.html";
+
+});
+
+// =========================
+// AUTO LOGOUT
+// =========================
+
+// 5 Minutes
+const AUTO_LOGOUT_TIME = 5 * 60 * 1000;
+
+let logoutTimer;
+
+function logoutUser() {
+
+    localStorage.removeItem("isLoggedIn");
+
+    alert("Session expired due to inactivity");
+
+    window.location.href = "index.html";
+
+}
+
+function resetLogoutTimer() {
+
+    clearTimeout(logoutTimer);
+
+    logoutTimer = setTimeout(
+        logoutUser,
+        AUTO_LOGOUT_TIME
+    );
+
+}
+
+// User Activity Detection
+
+[
+    "mousemove",
+    "mousedown",
+    "click",
+    "scroll",
+    "keypress",
+    "touchstart"
+].forEach(event => {
+
+    document.addEventListener(
+        event,
+        resetLogoutTimer
+    );
+
+});
+
+// Start Timer
+resetLogoutTimer();
+
+
+
+

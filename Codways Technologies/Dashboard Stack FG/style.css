@@ -233,26 +233,30 @@ body {
 }
 
 .collapse-btn{
-    display:flex;
-    align-items:center;
-    gap:10px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    gap: 10px;                
 
     width:100%;
     padding:18px 12px;
     margin-top:40px;
 
-    color:#9ca3af;
+    color:white;
     font-size:16px;
     font-weight:500;
-
+    border-radius: 12px;
     cursor:pointer;
     transition:all .3s ease;
-
-    border-top:1px solid rgba(255,255,255,0.05);
+    background:
+        linear-gradient(90deg,
+            #7445ff,
+            #5b2cff);
+    box-shadow: 0 10px 25px rgba(107, 66, 255, .35);
 }
 
 .collapse-btn:hover{
-    color:#ffffff;
+    color: #d8b4fe;
 }
 
 .collapse-btn i{
