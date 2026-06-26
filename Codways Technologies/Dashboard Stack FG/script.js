@@ -1,66 +1,66 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-// ================= SIDEBAR TOGGLE =================
+    // ================= SIDEBAR TOGGLE =================
 
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.querySelector(".sidebar");
-const mainContent = document.querySelector(".main-content");
-const collapseBtn = document.querySelector(".collapse-btn");
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+    const collapseBtn = document.querySelector(".collapse-btn");
 
-// Mobile & Tablet → hidden by default
-if (window.innerWidth <= 992) {
-    sidebar.classList.add("hidden");
-}
+    // Mobile & Tablet → hidden by default
+    if (window.innerWidth <= 992) {
+        sidebar.classList.add("hidden");
+    }
 
-// Hamburger Toggle
-if (menuToggle) {
+    // Hamburger Toggle
+    if (menuToggle) {
 
-    menuToggle.addEventListener("click", () => {
+        menuToggle.addEventListener("click", () => {
 
-        sidebar.classList.toggle("hidden");
+            sidebar.classList.toggle("hidden");
 
-    });
+        });
 
-}
+    }
 
-// Collapse Button
-if (collapseBtn) {
+    // Collapse Button
+    if (collapseBtn) {
 
-    collapseBtn.addEventListener("click", () => {
+        collapseBtn.addEventListener("click", () => {
 
-        if (window.innerWidth <= 992) {
+            if (window.innerWidth <= 992) {
 
-            // Mobile & Tablet → Close Sidebar
-            sidebar.classList.add("hidden");
+                // Mobile & Tablet → Close Sidebar
+                sidebar.classList.add("hidden");
+
+            } else {
+
+                // Desktop → Collapse Sidebar
+                sidebar.classList.toggle("collapsed");
+
+            }
+
+        });
+
+    }
+
+    // Resize Handle
+    window.addEventListener("resize", () => {
+
+        if (window.innerWidth > 992) {
+
+            sidebar.classList.remove("hidden");
 
         } else {
 
-            // Desktop → Collapse Sidebar
-            sidebar.classList.toggle("collapsed");
+            sidebar.classList.add("hidden");
+
+            // Mobile par collapsed mode remove
+            sidebar.classList.remove("collapsed");
 
         }
 
     });
-
-}
-
-// Resize Handle
-window.addEventListener("resize", () => {
-
-    if (window.innerWidth > 992) {
-
-        sidebar.classList.remove("hidden");
-
-    } else {
-
-        sidebar.classList.add("hidden");
-
-        // Mobile par collapsed mode remove
-        sidebar.classList.remove("collapsed");
-
-    }
-
-});
 
     // ================= MODAL =================
 
@@ -103,14 +103,176 @@ window.addEventListener("resize", () => {
 
     function updateCounts() {
 
-        document.getElementById("pendingCount").textContent =
-            document.querySelectorAll("#pendingTasks .task-card").length;
+        const pending =
+            document.querySelectorAll(
+                "#pendingTasks .task-card"
+            ).length;
 
-        document.getElementById("progressCount").textContent =
-            document.querySelectorAll("#progressTasks .task-card").length;
+        const progress =
+            document.querySelectorAll(
+                "#progressTasks .task-card"
+            ).length;
 
-        document.getElementById("completedCount").textContent =
-            document.querySelectorAll("#completedTasks .task-card").length;
+        const completed =
+            document.querySelectorAll(
+                "#completedTasks .task-card"
+            ).length;
+
+        const total =
+            pending + progress + completed;
+
+        const highPriority =
+            document.querySelectorAll(
+                ".task-card .priority.high"
+            ).length;
+
+        const productivity =
+            total > 0
+                ? Math.round((completed / total) * 100)
+                : 0;
+
+        // Task Board Counts
+
+        const pendingCount =
+            document.getElementById("pendingCount");
+
+        const progressCount =
+            document.getElementById("progressCount");
+
+        const completedCount =
+            document.getElementById("completedCount");
+
+        if (pendingCount)
+            pendingCount.textContent = pending;
+
+        if (progressCount)
+            progressCount.textContent = progress;
+
+        if (completedCount)
+            completedCount.textContent = completed;
+
+        // Stats Cards
+
+        document.getElementById(
+            "totalTasksCount"
+        ).textContent = total;
+
+        document.getElementById(
+            "completedTasksCount"
+        ).textContent = completed;
+
+        document.getElementById(
+            "pendingTasksCount"
+        ).textContent = pending;
+
+        document.getElementById(
+            "progressTasksCount"
+        ).textContent = progress;
+
+        document.getElementById(
+            "priorityTasksCount"
+        ).textContent = highPriority;
+
+        document.getElementById(
+            "productivityCount"
+        ).textContent = productivity + "%";
+    }
+
+    function loadTasks() {
+
+        const tasks = JSON.parse(
+            localStorage.getItem("tasks")
+        ) || [];
+
+        tasks.forEach(task => {
+
+const html = `
+<div class="task-card ${task.category === "completed" ? "completed" : ""}">
+
+    <h4>${task.name}</h4>
+
+    <div class="task-footer">
+
+        <span class="priority ${task.priority}">
+            ${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}
+        </span>
+
+        <span class="date">
+            ${task.date}
+        </span>
+
+    </div>
+
+</div>
+`;
+            let container;
+
+            if (task.category === "pending") {
+
+                container =
+                    document.getElementById("pendingTasks");
+
+            } else if (task.category === "progress") {
+
+                container =
+                    document.getElementById("progressTasks");
+
+            } else {
+
+                container =
+                    document.getElementById("completedTasks");
+
+            }
+
+            // Duplicate Check
+            const alreadyExists =
+                [...container.querySelectorAll(".task-card h2")]
+                    .some(
+                        title =>
+                            title.textContent.trim() ===
+                            task.name.trim()
+                    );
+
+            // Sirf naya task add hoga
+            if (!alreadyExists) {
+
+                container.insertAdjacentHTML(
+                    "beforeend",
+                    html
+                );
+
+            }
+
+        });
+
+    }
+
+    function limitTaskDisplay() {
+
+        const lists = [
+            document.getElementById("pendingTasks"),
+            document.getElementById("progressTasks"),
+            document.getElementById("completedTasks")
+        ];
+
+        lists.forEach(list => {
+
+            if (!list) return;
+
+            const tasks = list.querySelectorAll(".task-card");
+
+            tasks.forEach((task, index) => {
+
+                if (index < 3) {
+                    task.style.display = "block";
+                } else {
+                    task.style.display = "none";
+                }
+
+            });
+
+        });
+
     }
 
     // ================= RECENT ACTIVITY =================
@@ -187,7 +349,10 @@ window.addEventListener("resize", () => {
 
     // ================= INITIAL COUNTS =================
 
+    loadTasks();
     updateCounts();
+    limitTaskDisplay();
+
 
     // ================= SAVE TASK =================
 
@@ -202,25 +367,27 @@ window.addEventListener("resize", () => {
             alert("Please enter task name");
             return;
         }
+        const taskId = Date.now();
 
-        let isCompleted = (category === "completed");
+let html = `
+<div class="task-card ${category === "completed" ? "completed" : ""}">
 
-        let html =
-            `<div class="task-card ${isCompleted ? "completed" : ""}">
-                <h4>${name}</h4>
+    <h4>${name}</h4>
 
-                <div class="task-footer">
+    <div class="task-footer">
 
-                    <span class="priority ${label}">
-                        ${label.charAt(0).toUpperCase() + label.slice(1)}
-                    </span>
+        <span class="priority ${label}">
+            ${label.charAt(0).toUpperCase() + label.slice(1)}
+        </span>
 
-                    <span class="date">
-                        ${formatDate(date)}
-                    </span>
+        <span class="date">
+            ${formatDate(date)}
+        </span>
 
-                </div>
-            </div>`;
+    </div>
+
+</div>
+`;
 
         if (category === "pending") {
 
@@ -256,6 +423,26 @@ window.addEventListener("resize", () => {
         }
 
         addActivity(activityMessage);
+
+        // ================= SAVE TO LOCAL STORAGE =================
+
+        const tasks = JSON.parse(
+            localStorage.getItem("tasks")
+        ) || [];
+
+        tasks.push({
+            id: taskId,
+            name,
+            date: formatDate(date),
+            priority: label,
+            category,
+            createdAt: new Date().toISOString()
+        });
+
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(tasks)
+        );
 
         // ================= RESET FORM =================
 
@@ -306,9 +493,73 @@ window.addEventListener("resize", () => {
         // ================= UPDATE COUNTERS =================
 
         updateCounts();
+        limitTaskDisplay();
     });
 
-}); 
+    document.addEventListener("click", (e) => {
+
+    // ================= DELETE TASK =================
+    if (e.target.closest(".delete-btn")) {
+
+        const btn = e.target.closest(".delete-btn");
+        const id = Number(btn.dataset.id);
+
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        tasks = tasks.filter(task => task.id !== id);
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
+        btn.closest(".task-card").remove();
+
+        if (typeof updateCounts === "function") updateCounts();
+        if (typeof limitTaskDisplay === "function") limitTaskDisplay();
+
+    }
+
+// ================= EDIT TASK =================
+if (e.target.closest(".edit-btn")) {
+
+    const btn = e.target.closest(".edit-btn");
+    const id = Number(btn.dataset.id);
+
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    const task = tasks.find(task => task.id === id);
+
+    if (!task) return;
+
+    // Edit Task Name
+    const newName = prompt("Edit Task Name", task.name);
+
+    if (newName === null || newName.trim() === "") return;
+
+    // Edit Status
+    const newStatus = prompt(
+        "Enter Status (pending / progress / completed)",
+        task.category
+    );
+
+    if (
+        newStatus === null ||
+        !["pending", "progress", "completed"].includes(newStatus.toLowerCase())
+    ) {
+        alert("Invalid Status");
+        return;
+    }
+
+    task.name = newName.trim();
+    task.category = newStatus.toLowerCase();
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    // Page Reload so task moves to correct column
+    location.reload();
+}
+
+});
+});
+
 
 // =========================
 // LOGOUT
@@ -374,7 +625,4 @@ function resetLogoutTimer() {
 
 // Start Timer
 resetLogoutTimer();
-
-
-
 

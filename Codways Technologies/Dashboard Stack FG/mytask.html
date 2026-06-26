@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Layout Example</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="mytask.css">
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div>
+
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-box">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+
+                    <div>
+                        <h2>Focus Grid</h2>
+                        <p>To-Do Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Menu -->
+                <div class="menu-title">MENU</div>
+
+                <ul class="menu">
+                    <li onclick="window.location.href='dashboard.html'">
+                        <i class="fa-solid fa-house"></i>
+                        Dashboard
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-clipboard"></i>
+                        My Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-circle-check"></i>
+                        Completed Tasks
+                    </li>
+
+                                        <li>
+                        <i class="fa-regular fa-bookmark"></i>
+                        In Progress Tasks
+                    </li>
+
+
+                    <li>
+                        <i class="fa-regular fa-clock"></i>
+                        Pending Tasks
+                    </li>
+
+                    <li>
+                        <i class="fa-regular fa-calendar"></i>
+                        Calendar
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-gear"></i>
+                        Settings
+                    </li>
+                </ul>
+
+                <!-- Labels -->
+                <div class="menu-title labels-title">LABELS</div>
+
+                <ul class="labels">
+
+                    <li>
+                        <span class="dot red"></span>
+                        High Priority
+                    </li>
+
+                    <li>
+                        <span class="dot yellow"></span>
+                        Medium Priority
+                    </li>
+
+                    <li>
+                        <span class="dot green"></span>
+                        Low Priority
+                    </li>
+
+                </ul>
+
+                <!-- Upgrade Card -->
+                <div class="upgrade-card">
+
+                    <h3>Boost Your<br>Productivity 🚀</h3>
+
+                    <p>You are doing great!</p>
+
+                    <div class="graph">
+                        <span></span>
+                    </div>
+
+                    <button>Upgrade Now</button>
+
+                </div>
+                <br>
+                <br>
+                <br>
+
+
+
+                <div class="collapse-btn">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Collapse</span>
+                </div>
+
+            </div>
+
+        </aside>
+                <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+
+                <!-- Left Side -->
+                <div class="header-left">
+
+                    <button id="menuToggle" class="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="welcome">
+                        <h1>Manage Tasks</h1>
+                        <p>Prioritize Better, Work Smarter, Achieve More.</p>
+                    </div>
+
+                </div>
+
+                <!-- Right Side -->
+                <div class="top-actions">
+
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+
+                </div>
+
+            </header>
+            <div class="links-wrapper">
+
+<div class="filter-section">
+
+    <input type="text" id="taskSearch" placeholder="Task Name">
+
+    <select id="filterType">
+        <option value="">Select Filter</option>
+        <option value="priority">Priority Based</option>
+        <option value="status">Status Based</option>
+        <option value="sort">Sort Items</option>
+    </select>
+
+    <select id="filterValue">
+        <option value="">Select Type</option>
+        <option value="Low Priority">Low Priority</option>
+        <option value="Medium Priority">Medium Priority</option>
+        <option value="High Priority">High Priority</option>
+        <option value="Pending">Status Pending</option>
+        <option value="In Progress">Status In Progress</option>
+        <option value="Completed">Status Completed</option>
+        <option value="az">Task Name (A-Z)</option>
+        <option value="za">Task Name (Z-A)</option>
+    </select>
+
+    <button class="btn-filter">Filter</button>
+    <button class="btn-reset">Reset</button>
+
+</div>
+
+    <!-- Link Card -->
+<div id="noResults">
+    No Result Found
+</div>
+<div id="tasksContainer" class="tasks-container">
+</div>
+
+<div class="edit-modal" id="editModal">
+
+    <div class="edit-modal-content">
+
+        <button class="close-modal" id="closeEdit">×</button>
+
+        <h2>Edit Task</h2>
+
+        <input
+            type="text"
+            id="editTaskName"
+            placeholder="Task Name"
+        >
+
+        <select id="editTaskStatus">
+            <option value="pending">Pending</option>
+            <option value="progress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <button id="saveChanges" class="save-btn">
+            Save Changes
+        </button>
+
+    </div>
+
+</div>
+
+    <script src="mytask.js"></script>
+
+
+
+</body>
+
+</html>

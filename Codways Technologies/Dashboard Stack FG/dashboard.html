@@ -47,15 +47,21 @@
                         Dashboard
                     </li>
 
-                    <li>
-                        <i class="fa-regular fa-clipboard"></i>
-                        My Tasks
-                    </li>
+<li onclick="window.location.href='mytask.html'">
+    <i class="fa-regular fa-clipboard"></i>
+    My Tasks
+</li>
 
                     <li>
                         <i class="fa-regular fa-circle-check"></i>
                         Completed Tasks
                     </li>
+
+                                        <li>
+                        <i class="fa-regular fa-bookmark"></i>
+                        In Progress Tasks
+                    </li>
+
 
                     <li>
                         <i class="fa-regular fa-clock"></i>
@@ -112,9 +118,8 @@
                 <br>
                 <br>
                 <br>
-                <br>
-                <br>
-                <br>
+
+
 
                 <div class="collapse-btn">
                     <i class="fa-solid fa-arrow-left"></i>
@@ -156,7 +161,7 @@
                     <div class="theme-toggle" id="themeToggle">
                         <i class="fa-solid fa-moon"></i>
                     </div>
-                    <div class="notification" id="logoutBtn" >
+                    <div class="notification" id="logoutBtn">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
 
@@ -180,40 +185,40 @@
             <section class="stats-grid">
 
                 <div class="stat-card purple">
-    <h4>Total Tasks</h4>
-    <h2 id="totalTasksCount">150</h2>
-    <p>↑ 12%</p>
-</div>
+                    <h4>Total Tasks</h4>
+                    <h2 id="totalTasksCount">150</h2>
+                    <p>↑ 12%</p>
+                </div>
 
-<div class="stat-card green">
-    <h4>Completed</h4>
-    <h2 id="completedTasksCount">95</h2>
-    <p>↑ 8%</p>
-</div>
+                <div class="stat-card green">
+                    <h4>Completed</h4>
+                    <h2 id="completedTasksCount">95</h2>
+                    <p>↑ 8%</p>
+                </div>
 
-<div class="stat-card orange">
-    <h4>Pending</h4>
-    <h2 id="pendingTasksCount">30</h2>
-    <p>↓ 5%</p>
-</div>
+                <div class="stat-card orange">
+                    <h4>Pending</h4>
+                    <h2 id="pendingTasksCount">30</h2>
+                    <p>↓ 5%</p>
+                </div>
 
-<div class="stat-card blue">
-    <h4>In Progress</h4>
-    <h2 id="progressTasksCount">15</h2>
-    <p>↑ 3%</p>
-</div>
+                <div class="stat-card blue">
+                    <h4>In Progress</h4>
+                    <h2 id="progressTasksCount">15</h2>
+                    <p>↑ 3%</p>
+                </div>
 
-<div class="stat-card pink">
-    <h4>High Priority</h4>
-    <h2 id="priorityTasksCount">10</h2>
-    <p>↓ 2%</p>
-</div>
+                <div class="stat-card pink">
+                    <h4>High Priority</h4>
+                    <h2 id="priorityTasksCount">10</h2>
+                    <p>↓ 2%</p>
+                </div>
 
-<div class="stat-card cyan">
-    <h4>Productivity</h4>
-    <h2 id="productivityCount">87%</h2>
-    <p>↑ 15%</p>
-</div>
+                <div class="stat-card cyan">
+                    <h4>Productivity</h4>
+                    <h2 id="productivityCount">87%</h2>
+                    <p>↑ 15%</p>
+                </div>
 
             </section>
             <div class="dashboard-content">
@@ -226,11 +231,6 @@
                         <h2>Task Board</h2>
 
                         <div class="board-actions">
-
-                            <button class="filter-btn">
-                                <i class="fa-solid fa-filter"></i>
-                                Filter
-                            </button>
 
                             <button class="add-btn" id="openTaskModal">
                                 <i class="fa-solid fa-plus"></i>
@@ -256,35 +256,11 @@
                             </div>
 
                             <div class="task-list" id="pendingTasks">
-
-                                <div class="task-card">
-                                    <h4>Design Dashboard UI</h4>
-                                    <div class="task-footer">
-                                        <span class="priority high">High</span>
-                                        <span class="date">25 May 2026</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-card">
-                                    <h4>Create Sidebar Navigation</h4>
-                                    <div class="task-footer">
-                                        <span class="priority medium">Medium</span>
-                                        <span class="date">27 May 2026</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-card">
-                                    <h4>Add Dark Mode</h4>
-                                    <div class="task-footer">
-                                        <span class="priority low">Low</span>
-                                        <span class="date">30 May 2026</span>
-                                    </div>
-                                </div>
-
                             </div>
 
-                            <button class="column-add">+ View More</button>
-
+                            <button class="column-add" onclick="window.location.href='pending.html'">
+                                + View More
+                            </button>
                         </div>
 
                         <!-- In Progress -->
@@ -300,26 +276,12 @@
                             </div>
 
                             <div class="task-list" id="progressTasks">
-
-                                <div class="task-card">
-                                    <h4>Build Task Cards</h4>
-                                    <div class="task-footer">
-                                        <span class="priority high">High</span>
-                                        <span class="date">22 May 2026</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-card">
-                                    <h4>Implement Javascript</h4>
-                                    <div class="task-footer">
-                                        <span class="priority medium">Medium</span>
-                                        <span class="date">24 May 2026</span>
-                                    </div>
-                                </div>
-
                             </div>
 
-                            <button class="column-add">+ View More</button>
+                            <button class="column-add"
+        onclick="window.location.href='inprogress.html'">
+    + View More
+</button>
 
                         </div>
 
@@ -337,25 +299,12 @@
 
                             <div class="task-list" id="completedTasks">
 
-                                <div class="task-card completed">
-                                    <h4>Setup Project Structure</h4>
-                                    <div class="task-footer">
-                                        <span class="priority low">Low</span>
-                                        <span class="date">18 May 2026</span>
-                                    </div>
-                                </div>
-
-                                <div class="task-card completed">
-                                    <h4>Create Responsive Layout</h4>
-                                    <div class="task-footer">
-                                        <span class="priority medium">Medium</span>
-                                        <span class="date">20 May 2026</span>
-                                    </div>
-                                </div>
-
                             </div>
 
-                            <button class="column-add">+ View More</button>
+                            <button class="column-add"
+        onclick="window.location.href='completed.html'">
+    + View More
+</button>
 
                         </div>
 
