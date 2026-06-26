@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-        // ================= DARK / LIGHT MODE =================
+    // ================= DARK / LIGHT MODE =================
 
     const themeToggle = document.getElementById("themeToggle");
 
@@ -110,37 +110,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // Modal Variables
 
     const editModal = document.getElementById("editModal");
-const editTaskName = document.getElementById("editTaskName");
-const editTaskStatus = document.getElementById("editTaskStatus");
-const saveChanges = document.getElementById("saveChanges");
-const closeEdit = document.getElementById("closeEdit");
+    const editTaskName = document.getElementById("editTaskName");
+    const editTaskStatus = document.getElementById("editTaskStatus");
+    const saveChanges = document.getElementById("saveChanges");
+    const closeEdit = document.getElementById("closeEdit");
 
-let currentTaskId = null;
-function loadMyTasks() {
+    let currentTaskId = null;
+    function loadMyTasks() {
 
-    const container = document.getElementById("tasksContainer");
+        const container = document.getElementById("tasksContainer");
 
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    container.innerHTML = "";
+        container.innerHTML = "";
 
-    if(tasks.length === 0){
+        if (tasks.length === 0) {
 
-        container.innerHTML = `
+            container.innerHTML = `
             <div class="no-task">
                 No Tasks Available
             </div>
         `;
-        return;
-    }
+            return;
+        }
 
-    tasks.forEach(task => {
+        tasks.forEach(task => {
 
-        const card = document.createElement("div");
+            const card = document.createElement("div");
 
-        card.className = "task-card";
+            card.className = "task-card";
 
-        card.innerHTML = `
+            card.innerHTML = `
 
         <div class="task-info">
 
@@ -151,13 +151,12 @@ function loadMyTasks() {
                 </span>
 
                 <span class="status-badge ${task.category}">
-                    ${
-                        task.category=="pending"
-                        ? "Pending"
-                        : task.category=="progress"
+                    ${task.category == "pending"
+                    ? "Pending"
+                    : task.category == "progress"
                         ? "In Progress"
                         : "Completed"
-                    }
+                }
                 </span>
 
             </div>
@@ -190,93 +189,115 @@ function loadMyTasks() {
 
         `;
 
-        container.appendChild(card);
+            container.appendChild(card);
 
-    });
+        });
 
-}
-
-loadMyTasks();
-
-// ================= SAVE CHANGES =================
-
-saveChanges.addEventListener("click", () => {
-
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-    const task = tasks.find(t => t.id === currentTaskId);
-
-    if (!task) return;
-
-    task.name = editTaskName.value.trim();
-    task.category = editTaskStatus.value;
-
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-
-    editModal.style.display = "none";
+    }
 
     loadMyTasks();
 
-});
+    // ================= SAVE CHANGES =================
 
-
-// ================= CLOSE BUTTON =================
-
-closeEdit.addEventListener("click", () => {
-
-    editModal.style.display = "none";
-
-});
-
-
-// ================= CLICK OUTSIDE MODAL =================
-
-window.addEventListener("click", (e) => {
-
-    if (e.target === editModal) {
-
-        editModal.style.display = "none";
-
-    }
-
-});
-
-document.addEventListener("click", function (e) {
-
-    // ================= DELETE =================
-    if (e.target.closest(".btn-delete")) {
-
-        const id = Number(e.target.closest(".btn-delete").dataset.id);
+    saveChanges.addEventListener("click", () => {
 
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-        tasks = tasks.filter(task => task.id !== id);
+        const task = tasks.find(t => t.id === currentTaskId);
+
+        if (!task) return;
+
+        task.name = editTaskName.value.trim();
+        task.category = editTaskStatus.value;
 
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
+        editModal.style.display = "none";
+
         loadMyTasks();
-    }
+
+    });
 
 
-// ================= EDIT =================
-if (e.target.closest(".btn-edit")) {
+    // ================= CLOSE BUTTON =================
 
-    currentTaskId = Number(
-        e.target.closest(".btn-edit").dataset.id
-    );
+    closeEdit.addEventListener("click", () => {
 
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        editModal.style.display = "none";
 
-    const task = tasks.find(task => task.id === currentTaskId);
+    });
 
-    if (!task) return;
 
-    editTaskName.value = task.name;
-    editTaskStatus.value = task.category;
+    // ================= CLICK OUTSIDE MODAL =================
 
-    editModal.style.display = "flex";
-}
-});
+    window.addEventListener("click", (e) => {
+
+        if (e.target === editModal) {
+
+            editModal.style.display = "none";
+
+        }
+
+    });
+
+    document.addEventListener("click", function (e) {
+
+        // ================= DELETE =================
+        if (e.target.closest(".btn-delete")) {
+
+            const id = Number(e.target.closest(".btn-delete").dataset.id);
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to recover this task!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+                    tasks = tasks.filter(task => task.id !== id);
+
+                    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+                    loadMyTasks();
+
+                    Swal.fire(
+                        "Deleted!",
+                        "Your task has been deleted successfully.",
+                        "success"
+                    );
+                }
+
+            });
+        }
+
+
+        // ================= EDIT =================
+        if (e.target.closest(".btn-edit")) {
+
+            currentTaskId = Number(
+                e.target.closest(".btn-edit").dataset.id
+            );
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            const task = tasks.find(task => task.id === currentTaskId);
+
+            if (!task) return;
+
+            editTaskName.value = task.name;
+            editTaskStatus.value = task.category;
+
+            editModal.style.display = "flex";
+        }
+    });
 });
 
 // ================= FILTER & RESET =================
@@ -395,9 +416,9 @@ resetBtn.addEventListener("click", () => {
     filterType.value = "";
     filterValue.value = "";
 
-document.querySelectorAll(".task-card").forEach(task => {
-    task.style.display = "flex";
-});
+    document.querySelectorAll(".task-card").forEach(task => {
+        task.style.display = "flex";
+    });
 
     noResults.style.display = "none";
 
