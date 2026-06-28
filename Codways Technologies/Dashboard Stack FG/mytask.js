@@ -7,59 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
     const mainContent = document.querySelector(".main-content");
     const collapseBtn = document.querySelector(".collapse-btn");
 
-    // Mobile & Tablet → hidden by default
+    function toggleSidebarState() {
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("expanded");
+    }
+
     if (window.innerWidth <= 992) {
         sidebar.classList.add("hidden");
+        mainContent.classList.add("expanded");
     }
 
-    // Hamburger Toggle
     if (menuToggle) {
-
         menuToggle.addEventListener("click", () => {
-
-            sidebar.classList.toggle("hidden");
-
+            toggleSidebarState();
         });
-
     }
 
-    // Collapse Button
     if (collapseBtn) {
-
         collapseBtn.addEventListener("click", () => {
-
             if (window.innerWidth <= 992) {
-
-                // Mobile & Tablet → Close Sidebar
                 sidebar.classList.add("hidden");
-
+                mainContent.classList.add("expanded");
             } else {
-
-                // Desktop → Collapse Sidebar
-                sidebar.classList.toggle("collapsed");
-
+                toggleSidebarState();
             }
-
         });
-
     }
 
     // Resize Handle
     window.addEventListener("resize", () => {
-
         if (window.innerWidth > 992) {
-
             sidebar.classList.remove("hidden");
-
+            mainContent.classList.remove("expanded");
         } else {
-
             sidebar.classList.add("hidden");
-
-            // Mobile par collapsed mode remove
-            sidebar.classList.remove("collapsed");
-
+            mainContent.classList.add("expanded");
         }
-
     });
     // ================= DARK / LIGHT MODE =================
 
@@ -116,6 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeEdit = document.getElementById("closeEdit");
 
     let currentTaskId = null;
+
+    // ================= PAGINATION =================
+
+    let currentPage = 1;
+    const tasksPerPage = 10;
+
     function loadMyTasks() {
 
         const container = document.getElementById("tasksContainer");
@@ -134,7 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        tasks.forEach(task => {
+        // ================= PAGINATION =================
+
+        const start = (currentPage - 1) * tasksPerPage;
+        const end = start + tasksPerPage;
+
+        const pageTasks = tasks.slice(start, end);
+
+        pageTasks.forEach(task => {
 
             const card = document.createElement("div");
 
@@ -193,10 +189,134 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+        renderPagination(tasks.length);
+
     }
 
     loadMyTasks();
 
+    function renderPagination(totalTasks) {
+
+        const pagination = document.getElementById("pagination");
+
+        if (!pagination) return;
+
+        pagination.innerHTML = "";
+
+        const totalPages = Math.ceil(totalTasks / tasksPerPage);
+
+        if (totalPages <= 1) return;
+
+        // First
+        const firstBtn = document.createElement("button");
+        firstBtn.className = "page-btn";
+        firstBtn.innerHTML = '<i class="fas fa-angle-double-left"></i>';
+        firstBtn.disabled = currentPage === 1;
+
+        firstBtn.addEventListener("click", () => {
+            currentPage = 1;
+            loadMyTasks();
+        });
+
+        pagination.appendChild(firstBtn);
+
+        // Previous
+        const prevBtn = document.createElement("button");
+        prevBtn.className = "page-btn";
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.disabled = currentPage === 1;
+
+        prevBtn.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadMyTasks();
+            }
+        });
+
+        pagination.appendChild(prevBtn);
+
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(totalPages, currentPage + 1);
+
+        // First Page
+        if (startPage > 1) {
+            const first = document.createElement("button");
+            first.className = "page-btn";
+            first.textContent = "1";
+            first.onclick = () => {
+                currentPage = 1;
+                loadMyTasks();
+            };
+            pagination.appendChild(first);
+        }
+
+        // Left Dots
+        if (startPage > 2) {
+            const dots = document.createElement("span");
+            dots.className = "page-btn dots";
+            dots.textContent = "...";
+            pagination.appendChild(dots);
+        }
+
+        // Visible Pages
+        for (let i = startPage; i <= endPage; i++) {
+            const button = document.createElement("button");
+            button.className = "page-btn";
+            if (i === currentPage) {
+                button.classList.add("active");
+            }
+            button.textContent = i;
+            button.onclick = () => {
+                currentPage = i;
+                loadMyTasks();
+            };
+            pagination.appendChild(button);
+        }
+
+        // Right Dots
+        if (endPage < totalPages - 1) {
+            const dots = document.createElement("span");
+            dots.className = "page-btn dots";
+            dots.textContent = "...";
+            pagination.appendChild(dots);
+        }
+
+        // Last Page
+        if (endPage < totalPages) {
+            const last = document.createElement("button");
+            last.className = "page-btn";
+            last.textContent = totalPages;
+            last.onclick = () => {
+                currentPage = totalPages;
+                loadMyTasks();
+            };
+            pagination.appendChild(last);
+        }
+
+        // ================= NEXT =================
+        const nextBtn = document.createElement("button");
+        nextBtn.className = "page-btn";
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadMyTasks();
+            }
+        });
+        pagination.appendChild(nextBtn);
+
+        // ================= LAST =================
+        const lastBtn = document.createElement("button");
+        lastBtn.className = "page-btn";
+        lastBtn.innerHTML = '<i class="fas fa-angle-double-right"></i>';
+        lastBtn.disabled = currentPage === totalPages;
+        lastBtn.addEventListener("click", () => {
+            currentPage = totalPages;
+            loadMyTasks();
+        });
+        pagination.appendChild(lastBtn);
+    }
     // ================= SAVE CHANGES =================
 
     saveChanges.addEventListener("click", () => {
@@ -300,136 +420,189 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// ================= FILTER & RESET =================
+// ================= FILTER DRAWER =================
 
-const filterBtn = document.querySelector(".btn-filter");
-const resetBtn = document.querySelector(".btn-reset");
+const openFilter = document.getElementById("openFilter");
+const closeFilter = document.getElementById("closeFilter");
+const drawer = document.getElementById("filterDrawer");
+const overlay = document.getElementById("filterOverlay");
 
 const taskSearch = document.getElementById("taskSearch");
-const filterType = document.getElementById("filterType");
-const filterValue = document.getElementById("filterValue");
+const sortType = document.getElementById("sortType");
+
+const applyBtn = document.querySelector(".apply-btn");
+const drawerResetBtn = document.querySelector(".reset-btn");
+const headerResetBtn = document.getElementById("resetFilters");
+
 const noResults = document.getElementById("noResults");
+const container = document.getElementById("tasksContainer");
 
-filterBtn.addEventListener("click", () => {
 
-    const searchText = taskSearch.value.toLowerCase().trim();
-    const type = filterType.value;
-    const value = filterValue.value;
+// ================= DRAWER =================
 
-    const tasks = document.querySelectorAll(".task-card");
+openFilter.addEventListener("click", () => {
+    drawer.classList.add("active");
+    overlay.classList.add("active");
+});
 
+function closeDrawer() {
+    drawer.classList.remove("active");
+    overlay.classList.remove("active");
+}
+
+closeFilter.addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+
+// ================= APPLY FILTER =================
+
+function applyFilters() {
+    const searchValue = taskSearch.value.trim().toLowerCase();
+    const priority = document.querySelector('input[name="priority"]:checked').value;
+    const status = document.querySelector('input[name="status"]:checked').value;
+    const sort = sortType.value;
+    let cards = Array.from(document.querySelectorAll(".task-card"));
     let visibleCount = 0;
 
-    tasks.forEach(task => {
+    cards.forEach(card => {
 
-        const title = task.querySelector(".task-title")
-            .textContent
-            .toLowerCase()
-            .trim();
-
-        const priority = task.querySelector(".priority-badge")
-            .textContent
-            .trim();
-
-        const status = task.querySelector(".status-badge")
-            .textContent
-            .trim();
-
+        const title = card.querySelector(".task-title").innerText.toLowerCase();
+        const priorityText = card.querySelector(".priority-badge").innerText.trim();
+        const statusText = card.querySelector(".status-badge").innerText.trim();
         let show = true;
 
-        // Task Name Search
-        if (searchText && !title.includes(searchText)) {
+        if (searchValue && !title.includes(searchValue)) {
             show = false;
         }
 
-        // Priority Filter
-        if (type === "priority") {
-            if (value === "Low Priority" && priority !== "Low") show = false;
-            if (value === "Medium Priority" && priority !== "Medium") show = false;
-            if (value === "High Priority" && priority !== "High") show = false;
+        if (priority && priorityText !== priority) {
+            show = false;
         }
 
-        // Status Filter
-        if (type === "status") {
-            if (
-                value === "Pending" ||
-                value === "In Progress" ||
-                value === "Completed"
-            ) {
-                if (status !== value) show = false;
-            }
+        if (status && statusText !== status) {
+            show = false;
         }
 
+        card.style.display = show ? "flex" : "none";
         if (show) {
-            task.style.display = "flex";
             visibleCount++;
-        } else {
-            task.style.display = "none";
         }
-
     });
 
-    // No Result Found
-    if (visibleCount === 0) {
-        noResults.style.display = "block";
-    } else {
-        noResults.style.display = "none";
+    // ================= SORT =================
+
+    const priorityOrder = {
+        High: 1,
+        Medium: 2,
+        Low: 3
+    };
+
+    cards.sort((a, b) => {
+        const nameA =
+            a.querySelector(".task-title").innerText.toLowerCase();
+
+        const nameB =
+            b.querySelector(".task-title").innerText.toLowerCase();
+
+        const pA =
+            a.querySelector(".priority-badge").innerText.trim();
+
+        const pB =
+            b.querySelector(".priority-badge").innerText.trim();
+
+        switch (sort) {
+
+            case "az": return nameA.localeCompare(nameB);
+            case "za": return nameB.localeCompare(nameA);
+            case "high": return priorityOrder[pA] - priorityOrder[pB];
+            case "low": return priorityOrder[pB] - priorityOrder[pA];
+            default:
+                return 0;
+        }
+    });
+
+    cards.forEach(card => {
+        container.appendChild(card);
+    });
+
+    // ================= NO RESULT =================
+
+    if (noResults) {
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
     }
 
-    // Sorting
-    if (type === "sort") {
+    // ================= HEADER RESET =================
 
-        const container = document.querySelector(".tasks-container");
-        const taskArray = [...document.querySelectorAll(".task-card")];
+    const activeFilter =
+        searchValue ||
+        priority ||
+        status ||
+        sort;
+    headerResetBtn.style.display = activeFilter ? "flex" : "none";
+}
 
-        taskArray.sort((a, b) => {
 
-            const nameA = a.querySelector(".task-title")
-                .textContent
-                .trim()
-                .toLowerCase();
+// ================= APPLY =================
 
-            const nameB = b.querySelector(".task-title")
-                .textContent
-                .trim()
-                .toLowerCase();
-
-            if (value === "az") {
-                return nameA.localeCompare(nameB);
-            }
-
-            if (value === "za") {
-                return nameB.localeCompare(nameA);
-            }
-
-            return 0;
-        });
-
-        taskArray.forEach(task => container.appendChild(task));
-    }
-
+applyBtn.addEventListener("click", () => {
+    applyFilters();
+    closeDrawer();
 });
 
-resetBtn.addEventListener("click", () => {
+// ================= RESET FILTERS =================
 
+function resetFilters() {
     taskSearch.value = "";
-    filterType.value = "";
-    filterValue.value = "";
 
-    document.querySelectorAll(".task-card").forEach(task => {
-        task.style.display = "flex";
-    });
+    // Priority Reset (All)
+    document.querySelector(
+        'input[name="priority"][value=""]'
+    ).checked = true;
 
-    noResults.style.display = "none";
+    // Status Reset (All)
+    document.querySelector(
+        'input[name="status"][value=""]'
+    ).checked = true;
 
+    // Sort Reset
+    sortType.value = "";
+
+    // Apply Again
+    applyFilters();
+
+    // Header Reset Hide
+    headerResetBtn.style.display = "none";
+
+    // Close Drawer
+    closeDrawer();
+}
+
+drawerResetBtn.addEventListener("click", () => {
+    resetFilters();
 });
 
+// ================= HEADER RESET =================
+headerResetBtn.addEventListener("click", () => {
+    resetFilters();
+});
 
+// ================= LIVE EVENTS =================
 
+// Search
+taskSearch.addEventListener("keyup", applyFilters);
 
+// Sort
+sortType.addEventListener("change", applyFilters);
 
+// Priority
+document.querySelectorAll('input[name="priority"]').forEach(radio => {
 
+    radio.addEventListener("change", applyFilters);
+});
 
+// Status
+document.querySelectorAll('input[name="status"]').forEach(radio => {
 
+    radio.addEventListener("change", applyFilters);
+});
 
-
+headerResetBtn.style.display = "none";

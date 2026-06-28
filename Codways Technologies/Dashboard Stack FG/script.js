@@ -1,67 +1,57 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ================= SIDEBAR TOGGLE =================
+// ================= SIDEBAR TOGGLE =================
 
-    const menuToggle = document.getElementById("menuToggle");
-    const sidebar = document.querySelector(".sidebar");
-    const mainContent = document.querySelector(".main-content");
-    const collapseBtn = document.querySelector(".collapse-btn");
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.querySelector(".sidebar");
+const mainContent = document.querySelector(".main-content");
+const collapseBtn = document.querySelector(".collapse-btn");
 
-    // Mobile & Tablet → hidden by default
-    if (window.innerWidth <= 992) {
-        sidebar.classList.add("hidden");
-    }
+// Helper function jo dono classes ko ek saath manage karegi
+function toggleSidebarState() {
+    sidebar.classList.toggle("hidden");
+    mainContent.classList.toggle("expanded");
+}
 
-    // Hamburger Toggle
-    if (menuToggle) {
+// Mobile & Tablet → hidden by default, main content expanded
+if (window.innerWidth <= 992) {
+    sidebar.classList.add("hidden");
+    mainContent.classList.add("expanded");
+}
 
-        menuToggle.addEventListener("click", () => {
-
-            sidebar.classList.toggle("hidden");
-
-        });
-
-    }
-
-    // Collapse Button
-    if (collapseBtn) {
-
-        collapseBtn.addEventListener("click", () => {
-
-            if (window.innerWidth <= 992) {
-
-                // Mobile & Tablet → Close Sidebar
-                sidebar.classList.add("hidden");
-
-            } else {
-
-                // Desktop → Collapse Sidebar
-                sidebar.classList.toggle("collapsed");
-
-            }
-
-        });
-
-    }
-
-    // Resize Handle
-    window.addEventListener("resize", () => {
-
-        if (window.innerWidth > 992) {
-
-            sidebar.classList.remove("hidden");
-
-        } else {
-
-            sidebar.classList.add("hidden");
-
-            // Mobile par collapsed mode remove
-            sidebar.classList.remove("collapsed");
-
-        }
-
+// Hamburger Toggle
+if (menuToggle) {
+    menuToggle.addEventListener("click", () => {
+        toggleSidebarState();
     });
+}
 
+// Collapse Button (Sidebar ke andar ka button)
+if (collapseBtn) {
+    collapseBtn.addEventListener("click", () => {
+        if (window.innerWidth <= 992) {
+            // Mobile & Tablet → Close Sidebar completely
+            sidebar.classList.add("hidden");
+            mainContent.classList.add("expanded");
+        } else {
+            // Desktop → Toggle hidden state
+            toggleSidebarState();
+        }
+    });
+}
+
+// Resize Handle
+window.addEventListener("resize", () => {
+    if (window.innerWidth > 992) {
+        // Desktop par aate hi sidebar wapas dikhne lage aur content margin le le
+        sidebar.classList.remove("hidden");
+        mainContent.classList.remove("expanded");
+    } else {
+        // Mobile par aate hi sidebar hide ho jaye aur content full page ho jaye
+        sidebar.classList.add("hidden");
+        mainContent.classList.add("expanded");
+    }
+});
     // ================= MODAL =================
 
     const modal = document.getElementById("taskModal");
