@@ -123,7 +123,7 @@ const tasks = (
     isFilterApplied
         ? [...filteredTasks]
         : [...progressTasks]
-).reverse();
+)
 
         container.innerHTML = "";
 

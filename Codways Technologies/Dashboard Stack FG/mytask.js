@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
             isFilterApplied
                 ? [...filteredTasks]
                 : [...allTasks]
-        ).reverse();
+        )
 
         container.innerHTML = "";
 
