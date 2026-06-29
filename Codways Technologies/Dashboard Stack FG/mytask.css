@@ -1004,6 +1004,7 @@ body.dark-mode .page-btn i{
     margin-bottom:25px;
     justify-content:flex-start;
     flex-wrap:wrap;
+    border-top: none !important;
 }
 
 .page-btn{
@@ -1052,8 +1053,9 @@ body.dark-mode .page-btn i{
     font-size:12px;
 }
 
-/* RESPONSIVE DESIGN STARTS LARGE SCREENS (> 650px) */
-
+/* ==========================================================================
+   1. LARGE SCREENS (> 650px)
+   ========================================================================== */
 @media screen and (min-width: 651px) {
     .topbar {
         display: flex !important;
@@ -1080,21 +1082,22 @@ body.dark-mode .page-btn i{
     }
 }
 
-/* TABLETS RESPONSIVE DESIGN */
-
+/* ==========================================================================
+   2. TABLETS & MOBILES GENERAL LAYOUT (650px and below)
+   ========================================================================== */
 @media screen and (max-width: 650px) {
     .topbar {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .03);
+        background: transparent !important;
+        padding: 10px 0px;
+        border-radius: 0px !important;
+        box-shadow: none !important;
     }
 
     body.dark-mode .topbar {
-        background: var(--bg-card);
+        background: transparent !important;
     }
 
     .header-left {
@@ -1134,8 +1137,9 @@ body.dark-mode .page-btn i{
     }
 }
 
-/*  Responsive Media (450px - 650px) */
-
+/* ==========================================================================
+   3. RESPONSIVE MEDIA BREAKPOINTS (350px - 650px)
+   ========================================================================== */
 @media screen and (min-width: 450px) and (max-width: 650px) {
     .topbar {
         display: flex !important;
@@ -1194,46 +1198,6 @@ body.dark-mode .page-btn i{
     }
 }
 
-/* SMALL MOBILES (350px - 576px) */
-
-@media screen and (max-width: 576px) {
-    .main-content {
-        padding: 15px;
-        margin-left: 0 !important;
-    }
-
-    .filter-drawer {
-        width: 100% !important;
-        right: -100%;
-        border-radius: 0;
-    }
-
-    .filter-drawer.active {
-        right: 0;
-    }
-
-    .task-info h3 {
-        font-size: 18px !important; 
-        gap: 10px;
-    }
-
-    .task-info h3 i {
-        font-size: 16px;
-    }
-
-    .filter-btn {
-        padding: 10px 14px;
-        font-size: 13px;
-        border-radius: 12px;
-    }
-
-    .menu-toggle, .reset-filter-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-    }
-}
-
 @media screen and (max-width: 450px) {
     .welcome p {
         display: none !important;
@@ -1241,30 +1205,6 @@ body.dark-mode .page-btn i{
 
     .top-actions {
         justify-content: center !important;
-    }
-}
-
-@media screen and (min-width: 350px) and (max-width: 575px) {
-    .filter-drawer {
-        width: 82% !important; 
-        max-width: 340px !important; 
-        right: -100% !important;       
-        top: 0 !important;
-        height: 100vh !important;
-        border-radius: 20px 0px 0px 20px !important; 
-        box-shadow: -6px 0 25px rgba(0, 0, 0, 0.15) !important;      
-        z-index: 9999 !important;
-        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important; 
-    }
-
-    .filter-drawer.active {
-        right: 0 !important;
-    }
-}
-
-@media screen and (min-width: 460px) and (max-width: 575px) {
-    .task-info h3 {
-        font-size: 28px !important;
     }
 }
 
@@ -1303,7 +1243,119 @@ body.dark-mode .page-btn i{
     }
 }
 
-/* ULTRA-SMALL SCREEN (320px to 250px) */
+/* ==========================================================================
+   4. SMALL MOBILES & FILTER DRAWER (350px - 576px)
+   ========================================================================== */
+@media screen and (max-width: 576px) {
+    .main-content {
+        padding: 15px;
+        margin-left: 0 !important;
+    }
+
+    .filter-drawer {
+        width: 100% !important;
+        right: -100%;
+        border-radius: 0;
+    }
+
+    .filter-drawer.active {
+        right: 0;
+    }
+
+    .task-info h3 {
+        font-size: 18px !important; 
+        gap: 10px;
+    }
+
+    .task-info h3 i {
+        font-size: 16px;
+    }
+
+    .filter-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+        border-radius: 12px;
+    }
+
+    .menu-toggle, .reset-filter-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+}
+
+@media screen and (min-width: 350px) and (max-width: 575px) {
+    .filter-drawer {
+        width: 82% !important; 
+        max-width: 340px !important; 
+        right: -100% !important;       
+        top: 0 !important;
+        height: 100vh !important;
+        border-radius: 20px 0px 0px 20px !important; 
+        box-shadow: -6px 0 25px rgba(0, 0, 0, 0.15) !important;      
+        z-index: 9999 !important;
+        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important; 
+    }
+
+    .filter-drawer.active {
+        right: 0 !important;
+    }
+}
+
+@media screen and (min-width: 460px) and (max-width: 575px) {
+    .task-info h3 {
+        font-size: 28px !important;
+    }
+}
+
+/* ==========================================================================
+   5. MICRO-MOBILE & CENTERING SHIELD (250px - 350px)
+   ========================================================================== */
+@media screen and (min-width: 310px) and (max-width: 350px) {
+    .topbar {
+        display: flex !important;
+        flex-direction: column !important; 
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 12px !important;
+        background: transparent !important; 
+    }
+
+    .header-left {
+        display: flex !important;
+        flex-direction: row !important; 
+        align-items: center !important;
+        justify-content: center !important; 
+        gap: 8px !important;
+        width: 100% !important;
+    }
+
+    .welcome {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; 
+    }
+
+    .welcome h1 {
+        font-size: 22px !important; 
+        color: white !important;   
+        text-align: center !important;
+        white-space: normal !important; 
+        line-height: 1.2 !important;
+        margin: 0 !important;
+    }
+
+    .top-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important; 
+        align-items: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        gap: 10px !important;
+    }
+}
 
 @media screen and (min-width: 290px) and (max-width: 320px) {
     .task-actions {
@@ -1378,6 +1430,6 @@ body.dark-mode .page-btn i{
     }
 
     .welcome h1 {
-        font-size: 18px !important;
+        font-size: 22px !important;
     }
 }

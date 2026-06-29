@@ -105,11 +105,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPage = 1;
     const tasksPerPage = 10;
 
+    let filteredTasks = [];
+    let isFilterApplied = false;
+
     function loadMyTasks() {
 
         const container = document.getElementById("tasksContainer");
 
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const allTasks =
+            JSON.parse(localStorage.getItem("tasks")) || [];
+
+        const tasks =
+            isFilterApplied
+                ? filteredTasks
+                : allTasks;
 
         container.innerHTML = "";
 
@@ -123,12 +132,24 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        const totalPages = Math.ceil(tasks.length / tasksPerPage);
+
+        if (currentPage > totalPages && totalPages > 0) {
+            currentPage = totalPages;
+        }
+
+
         // ================= PAGINATION =================
 
         const start = (currentPage - 1) * tasksPerPage;
         const end = start + tasksPerPage;
 
         const pageTasks = tasks.slice(start, end);
+        if (pageTasks.length === 0 && currentPage > 1) {
+            currentPage--;
+            loadMyTasks();
+            return;
+        }
 
         pageTasks.forEach(task => {
 
@@ -334,7 +355,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         editModal.style.display = "none";
 
-        loadMyTasks();
+        if (isFilterApplied) {
+
+            applyFilters();
+
+        } else {
+
+            loadMyTasks();
+
+        }
 
     });
 
@@ -386,7 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-                    loadMyTasks();
+                    if (isFilterApplied) {
+
+                        applyFilters();
+
+                    } else {
+
+                        loadMyTasks();
+
+                    }
 
                     Swal.fire(
                         "Deleted!",
@@ -418,191 +455,215 @@ document.addEventListener("DOMContentLoaded", () => {
             editModal.style.display = "flex";
         }
     });
-});
-
-// ================= FILTER DRAWER =================
-
-const openFilter = document.getElementById("openFilter");
-const closeFilter = document.getElementById("closeFilter");
-const drawer = document.getElementById("filterDrawer");
-const overlay = document.getElementById("filterOverlay");
-
-const taskSearch = document.getElementById("taskSearch");
-const sortType = document.getElementById("sortType");
-
-const applyBtn = document.querySelector(".apply-btn");
-const drawerResetBtn = document.querySelector(".reset-btn");
-const headerResetBtn = document.getElementById("resetFilters");
-
-const noResults = document.getElementById("noResults");
-const container = document.getElementById("tasksContainer");
 
 
-// ================= DRAWER =================
+    // ================= FILTER DRAWER =================
 
-openFilter.addEventListener("click", () => {
-    drawer.classList.add("active");
-    overlay.classList.add("active");
-});
+    const openFilter = document.getElementById("openFilter");
+    const closeFilter = document.getElementById("closeFilter");
+    const drawer = document.getElementById("filterDrawer");
+    const overlay = document.getElementById("filterOverlay");
 
-function closeDrawer() {
-    drawer.classList.remove("active");
-    overlay.classList.remove("active");
-}
+    const taskSearch = document.getElementById("taskSearch");
+    const sortType = document.getElementById("sortType");
 
-closeFilter.addEventListener("click", closeDrawer);
-overlay.addEventListener("click", closeDrawer);
+    const applyBtn = document.querySelector(".apply-btn");
+    const drawerResetBtn = document.querySelector(".reset-btn");
+    const headerResetBtn = document.getElementById("resetFilters");
 
-// ================= APPLY FILTER =================
+    const noResults = document.getElementById("noResults");
+    const container = document.getElementById("tasksContainer");
 
-function applyFilters() {
-    const searchValue = taskSearch.value.trim().toLowerCase();
-    const priority = document.querySelector('input[name="priority"]:checked').value;
-    const status = document.querySelector('input[name="status"]:checked').value;
-    const sort = sortType.value;
-    let cards = Array.from(document.querySelectorAll(".task-card"));
-    let visibleCount = 0;
 
-    cards.forEach(card => {
+    // ================= DRAWER =================
 
-        const title = card.querySelector(".task-title").innerText.toLowerCase();
-        const priorityText = card.querySelector(".priority-badge").innerText.trim();
-        const statusText = card.querySelector(".status-badge").innerText.trim();
-        let show = true;
-
-        if (searchValue && !title.includes(searchValue)) {
-            show = false;
-        }
-
-        if (priority && priorityText !== priority) {
-            show = false;
-        }
-
-        if (status && statusText !== status) {
-            show = false;
-        }
-
-        card.style.display = show ? "flex" : "none";
-        if (show) {
-            visibleCount++;
-        }
+    openFilter.addEventListener("click", () => {
+        drawer.classList.add("active");
+        overlay.classList.add("active");
     });
 
-    // ================= SORT =================
-
-    const priorityOrder = {
-        High: 1,
-        Medium: 2,
-        Low: 3
-    };
-
-    cards.sort((a, b) => {
-        const nameA =
-            a.querySelector(".task-title").innerText.toLowerCase();
-
-        const nameB =
-            b.querySelector(".task-title").innerText.toLowerCase();
-
-        const pA =
-            a.querySelector(".priority-badge").innerText.trim();
-
-        const pB =
-            b.querySelector(".priority-badge").innerText.trim();
-
-        switch (sort) {
-
-            case "az": return nameA.localeCompare(nameB);
-            case "za": return nameB.localeCompare(nameA);
-            case "high": return priorityOrder[pA] - priorityOrder[pB];
-            case "low": return priorityOrder[pB] - priorityOrder[pA];
-            default:
-                return 0;
-        }
-    });
-
-    cards.forEach(card => {
-        container.appendChild(card);
-    });
-
-    // ================= NO RESULT =================
-
-    if (noResults) {
-        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    function closeDrawer() {
+        drawer.classList.remove("active");
+        overlay.classList.remove("active");
     }
 
+    closeFilter.addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", closeDrawer);
+
+    // ================= APPLY FILTER =================
+
+    function applyFilters() {
+
+        const searchValue = taskSearch.value.trim().toLowerCase();
+
+        const priority =
+            document.querySelector(
+                'input[name="priority"]:checked'
+            ).value.toLowerCase();
+
+        const status =
+            document.querySelector(
+                'input[name="status"]:checked'
+            ).value.toLowerCase();
+
+        const sort = sortType.value;
+
+        const allTasks =
+            JSON.parse(localStorage.getItem("tasks")) || [];
+
+        filteredTasks = allTasks.filter(task => {
+
+            let show = true;
+
+            if (
+                searchValue &&
+                !task.name.toLowerCase().includes(searchValue)
+            ) {
+                show = false;
+            }
+
+            if (
+                priority &&
+                task.priority.toLowerCase() !== priority
+            ) {
+                show = false;
+            }
+
+            if (
+                status &&
+                task.category.toLowerCase() !== status
+            ) {
+                show = false;
+            }
+
+            return show;
+
+        });
+
+        const priorityOrder = {
+            high: 1,
+            medium: 2,
+            low: 3
+        };
+
+        filteredTasks.sort((a, b) => {
+
+            switch (sort) {
+
+                case "az":
+                    return a.name.localeCompare(b.name);
+
+                case "za":
+                    return b.name.localeCompare(a.name);
+
+                case "high":
+                    return priorityOrder[a.priority] - priorityOrder[b.priority];
+
+                case "low":
+                    return priorityOrder[b.priority] - priorityOrder[a.priority];
+
+                default:
+                    return 0;
+
+            }
+
+        });
+
+        isFilterApplied =
+            searchValue !== "" ||
+            priority !== "" ||
+            status !== "" ||
+            sort !== "";
+
+        currentPage = 1;
+
+        loadMyTasks();
+
+        if (noResults) {
+            noResults.style.display =
+                filteredTasks.length === 0 ? "block" : "none";
+        }
+
+        const activeFilter =
+            searchValue ||
+            priority ||
+            status ||
+            sort;
+
+        headerResetBtn.style.display =
+            activeFilter ? "flex" : "none";
+    }
+
+    // ================= APPLY =================
+
+    applyBtn.addEventListener("click", () => {
+        applyFilters();
+        closeDrawer();
+    });
+
+    // ================= RESET FILTERS =================
+
+    function resetFilters() {
+        taskSearch.value = "";
+
+        // Priority Reset (All)
+        document.querySelector(
+            'input[name="priority"][value=""]'
+        ).checked = true;
+
+        // Status Reset (All)
+        document.querySelector(
+            'input[name="status"][value=""]'
+        ).checked = true;
+
+        // Sort Reset
+        sortType.value = "";
+
+        filteredTasks = [];
+
+        isFilterApplied = false;
+
+        currentPage = 1;
+
+        loadMyTasks();
+
+        headerResetBtn.style.display = "none";
+
+        if (noResults) {
+            noResults.style.display = "none";
+        }
+
+        closeDrawer();
+    }
+
+    drawerResetBtn.addEventListener("click", () => {
+        resetFilters();
+    });
+
     // ================= HEADER RESET =================
+    headerResetBtn.addEventListener("click", () => {
+        resetFilters();
+    });
 
-    const activeFilter =
-        searchValue ||
-        priority ||
-        status ||
-        sort;
-    headerResetBtn.style.display = activeFilter ? "flex" : "none";
-}
+    // ================= LIVE EVENTS =================
 
+    // Search
+    taskSearch.addEventListener("keyup", applyFilters);
 
-// ================= APPLY =================
+    // Sort
+    sortType.addEventListener("change", applyFilters);
 
-applyBtn.addEventListener("click", () => {
-    applyFilters();
-    closeDrawer();
-});
+    // Priority
+    document.querySelectorAll('input[name="priority"]').forEach(radio => {
 
-// ================= RESET FILTERS =================
+        radio.addEventListener("change", applyFilters);
+    });
 
-function resetFilters() {
-    taskSearch.value = "";
+    // Status
+    document.querySelectorAll('input[name="status"]').forEach(radio => {
 
-    // Priority Reset (All)
-    document.querySelector(
-        'input[name="priority"][value=""]'
-    ).checked = true;
+        radio.addEventListener("change", applyFilters);
+    });
 
-    // Status Reset (All)
-    document.querySelector(
-        'input[name="status"][value=""]'
-    ).checked = true;
-
-    // Sort Reset
-    sortType.value = "";
-
-    // Apply Again
-    applyFilters();
-
-    // Header Reset Hide
     headerResetBtn.style.display = "none";
-
-    // Close Drawer
-    closeDrawer();
-}
-
-drawerResetBtn.addEventListener("click", () => {
-    resetFilters();
 });
-
-// ================= HEADER RESET =================
-headerResetBtn.addEventListener("click", () => {
-    resetFilters();
-});
-
-// ================= LIVE EVENTS =================
-
-// Search
-taskSearch.addEventListener("keyup", applyFilters);
-
-// Sort
-sortType.addEventListener("change", applyFilters);
-
-// Priority
-document.querySelectorAll('input[name="priority"]').forEach(radio => {
-
-    radio.addEventListener("change", applyFilters);
-});
-
-// Status
-document.querySelectorAll('input[name="status"]').forEach(radio => {
-
-    radio.addEventListener("change", applyFilters);
-});
-
-headerResetBtn.style.display = "none";
