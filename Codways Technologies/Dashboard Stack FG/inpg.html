@@ -15,6 +15,20 @@
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="mytask.css">
+<style>
+@media screen and (min-width: 649px) and (max-width: 671px) {
+    .welcome p{
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 290px) {
+    .welcome h1{
+        font-size: 35px;
+    }
+}
+</style>
+    
 </head>
 
 <body>
@@ -47,20 +61,21 @@
                         Dashboard
                     </li>
 
-                    <li class="active">
+                    <li onclick="window.location.href='mytask.html'">
                         <i class="fa-regular fa-clipboard"></i>
                         My Tasks
                     </li>
 
-                    <li onclick="window.location.href='pending.html'">
+                    <li onclick="window.location.href='pending.html'" >
                         <i class="fa-regular fa-clock"></i>
                         Pending Tasks
                     </li>
 
-                    <li onclick="window.location.href='inpg.html'">
+                    <li class="active">
                         <i class="fa-regular fa-bookmark"></i>
                         Active Tasks
                     </li>
+
                     <li onclick="window.location.href='completed.html'">
                         <i class="fa-regular fa-circle-check"></i>
                         Completed Tasks
@@ -141,8 +156,8 @@
                     </button>
 
                     <div class="welcome">
-                        <h1>Manage Tasks</h1>
-                        <p>Prioritize Better, Work Smarter, Achieve More.</p>
+                        <h1>Active Tasks</h1>
+                        <p>Stay Focused, Keep Moving Forward.</p>
                     </div>
 
                 </div>
@@ -194,16 +209,6 @@
                     <label><input type="radio" name="priority" value="Low"> Low</label>
                 </div>
 
-                <!-- Status -->
-                <div class="filter-group">
-                    <label>Status</label>
-
-                    <label><input type="radio" name="status" value="" checked> All</label>
-                    <label><input type="radio" name="status" value="Pending"> Pending</label>
-                    <label><input type="radio" name="status" value="progress"> In Progress</label>
-                    <label><input type="radio" name="status" value="Completed"> Completed</label>
-                </div>
-
                 <!-- Sort -->
                 <div class="filter-group">
                     <label>Sort By</label>
@@ -216,6 +221,7 @@
                         <option value="low">Priority (Low → High)</option>
                     </select>
                 </div>
+
 
                 <!-- Buttons -->
                 <div class="drawer-buttons">
@@ -265,7 +271,7 @@
             </div>
 
 
-            <script src="mytask.js"></script>
+            <script src="inpg.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 

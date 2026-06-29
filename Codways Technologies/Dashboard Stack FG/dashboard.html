@@ -47,27 +47,26 @@
                         Dashboard
                     </li>
 
-<li onclick="window.location.href='mytask.html'">
-    <i class="fa-regular fa-clipboard"></i>
-    My Tasks
-</li>
-
-                    <li>
-                        <i class="fa-regular fa-circle-check"></i>
-                        Completed Tasks
+                    <li onclick="window.location.href='mytask.html'">
+                        <i class="fa-regular fa-clipboard"></i>
+                        My Tasks
                     </li>
 
-                                        <li>
-                        <i class="fa-regular fa-bookmark"></i>
-                        In Progress Tasks
-                    </li>
-
-
-                    <li>
+                    <li onclick="window.location.href='pending.html'">
                         <i class="fa-regular fa-clock"></i>
                         Pending Tasks
                     </li>
 
+                    <li onclick="window.location.href='inpg.html'">
+                        <i class="fa-regular fa-bookmark"></i>
+                        Active Tasks
+                    </li>
+
+                    <li onclick="window.location.href='completed.html'">
+                        <i class="fa-regular fa-circle-check"></i>
+                        Completed Tasks
+                    </li>
+                    
                     <li>
                         <i class="fa-regular fa-calendar"></i>
                         Calendar
@@ -278,10 +277,9 @@
                             <div class="task-list" id="progressTasks">
                             </div>
 
-                            <button class="column-add"
-        onclick="window.location.href='inprogress.html'">
-    + View More
-</button>
+                            <button class="column-add" onclick="window.location.href='inprogress.html'">
+                                + View More
+                            </button>
 
                         </div>
 
@@ -301,10 +299,9 @@
 
                             </div>
 
-                            <button class="column-add"
-        onclick="window.location.href='completed.html'">
-    + View More
-</button>
+                            <button class="column-add" onclick="window.location.href='completed.html'">
+                                + View More
+                            </button>
 
                         </div>
 
