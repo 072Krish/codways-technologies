@@ -115,10 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const allTasks =
             JSON.parse(localStorage.getItem("tasks")) || [];
 
-        const tasks =
+        const tasks = (
             isFilterApplied
-                ? filteredTasks
-                : allTasks;
+                ? [...filteredTasks]
+                : [...allTasks]
+        ).reverse();
 
         container.innerHTML = "";
 

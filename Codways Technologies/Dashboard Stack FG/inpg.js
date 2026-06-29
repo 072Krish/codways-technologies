@@ -112,17 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const container = document.getElementById("tasksContainer");
 
-        const allTasks =
-            JSON.parse(localStorage.getItem("tasks")) || [];
+const allTasks =
+    JSON.parse(localStorage.getItem("tasks")) || [];
 
 const progressTasks = allTasks.filter(task =>
     task.category === "progress"
 );
 
-const tasks =
+const tasks = (
     isFilterApplied
-        ? filteredTasks
-        : progressTasks;
+        ? [...filteredTasks]
+        : [...progressTasks]
+).reverse();
 
         container.innerHTML = "";
 

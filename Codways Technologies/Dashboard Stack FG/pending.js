@@ -119,10 +119,11 @@ const pendingTasks = allTasks.filter(task =>
     task.category === "pending"
 );
 
-const tasks =
+const tasks = (
     isFilterApplied
-        ? filteredTasks
-        : pendingTasks;
+        ? [...filteredTasks]
+        : [...pendingTasks]
+).reverse();
 
         container.innerHTML = "";
 

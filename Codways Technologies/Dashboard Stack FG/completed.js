@@ -119,10 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
             task.category === "completed"
         );
 
-        const tasks =
+        const tasks = (
             isFilterApplied
-                ? filteredTasks
-                : completedTasks;
+                ? [...filteredTasks]
+                : [...completedTasks]
+        ).reverse();
 
         container.innerHTML = "";
 
@@ -498,14 +499,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function applyFilters() {
 
-const searchValue = taskSearch.value.trim().toLowerCase();
+        const searchValue = taskSearch.value.trim().toLowerCase();
 
-const priority =
-    document.querySelector(
-        'input[name="priority"]:checked'
-    ).value.toLowerCase();
+        const priority =
+            document.querySelector(
+                'input[name="priority"]:checked'
+            ).value.toLowerCase();
 
-const sort = sortType.value;
+        const sort = sortType.value;
 
         const allTasks =
             JSON.parse(localStorage.getItem("tasks")) || [];
@@ -514,28 +515,28 @@ const sort = sortType.value;
             task.category === "completed"
         );
 
-filteredTasks = completedTasks.filter(task => {
+        filteredTasks = completedTasks.filter(task => {
 
-    let show = true;
+            let show = true;
 
-    // Search
-    if (
-        searchValue &&
-        !task.name.toLowerCase().includes(searchValue)
-    ) {
-        show = false;
-    }
+            // Search
+            if (
+                searchValue &&
+                !task.name.toLowerCase().includes(searchValue)
+            ) {
+                show = false;
+            }
 
-    // Priority
-    if (
-        priority &&
-        task.priority.toLowerCase() !== priority
-    ) {
-        show = false;
-    }
+            // Priority
+            if (
+                priority &&
+                task.priority.toLowerCase() !== priority
+            ) {
+                show = false;
+            }
 
-    return show;
-});
+            return show;
+        });
 
         const priorityOrder = {
             high: 1,
