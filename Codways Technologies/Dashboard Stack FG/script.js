@@ -7,6 +7,30 @@ const sidebar = document.querySelector(".sidebar");
 const mainContent = document.querySelector(".main-content");
 const collapseBtn = document.querySelector(".collapse-btn");
 
+// ================= USER PROFILE =================
+
+if (localStorage.getItem("isLoggedIn") !== "true") {
+
+    window.location.href = "index.html";
+
+}
+
+const loggedInUser = JSON.parse(
+    localStorage.getItem("loggedInUser")
+);
+
+if (loggedInUser) {
+
+    const userName = document.getElementById("userName");
+
+    if (userName) {
+
+        userName.textContent = loggedInUser.username;
+
+    }
+
+}
+
 // Helper function jo dono classes ko ek saath manage karegi
 function toggleSidebarState() {
     sidebar.classList.toggle("hidden");
@@ -560,6 +584,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 logoutBtn?.addEventListener("click", () => {
 
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("loggedInUser");
 
     window.location.href = "index.html";
 
@@ -577,6 +602,7 @@ let logoutTimer;
 function logoutUser() {
 
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("loggedInUser");
 
     alert("Session expired due to inactivity");
 

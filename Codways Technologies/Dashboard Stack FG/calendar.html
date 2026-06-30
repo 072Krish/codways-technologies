@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grid Focus - All Tasks </title>
+    <title>Focus Grid - Calendar </title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -14,15 +14,7 @@
 
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="mytask.css">
-<style>
-@media screen and (min-width: 649px) and (max-width: 671px) {
-    .welcome p{
-        font-size: 13px;
-    }
-}
-</style>
-    
+    <link rel="stylesheet" href="calendar.css">
 </head>
 
 <body>
@@ -70,12 +62,12 @@
                         Active Tasks
                     </li>
 
-                    <li class="active">
+                    <li onclick="window.location.href='completed.html'">
                         <i class="fa-regular fa-circle-check"></i>
                         Completed Tasks
                     </li>
 
-                    <li onclick="window.location.href='calendar.html'">
+                    <li class="active">
                         <i class="fa-regular fa-calendar"></i>
                         Calendar
                     </li>
@@ -136,6 +128,7 @@
             </div>
 
         </aside>
+
         <!-- MAIN CONTENT -->
         <main class="main-content">
 
@@ -150,8 +143,8 @@
                     </button>
 
                     <div class="welcome">
-                        <h1>Achievements</h1>
-                        <p>Your Success Starts with Every Task You Complete.</p>
+                        <h1>Your Schedule ⏰</h1>
+                        <p>Here’s a snapshot of what’s happening next.</p>
                     </div>
 
                 </div>
@@ -163,112 +156,95 @@
                         <i class="fa-solid fa-moon"></i>
                     </div>
 
-                    <button id="resetFilters" class="reset-filter-btn" title="Clear Filters">
-                        <i class="fas fa-rotate-left"></i> </button>
-
-                    <button class="filter-btn" id="openFilter">
-                        <i class="fa-solid fa-filter"></i>
-                        Filters
-                    </button>
+                    <div class="profile">
+    <img src="https://i.pravatar.cc/60?img=57" alt="">
+    <div>
+        <h4 id="userName">Krish Garg</h4>
+        <span>Productive User</span>
+    </div>
+</div>
 
                 </div>
 
             </header>
 
-            <!-- ================= OVERLAY ================= -->
-            <div class="filter-overlay" id="filterOverlay"></div>
+            <main>
+                <div class="calendar-layout">
 
-            <!-- ================= FILTER DRAWER ================= -->
-            <div class="filter-drawer" id="filterDrawer">
+                    <!-- Left Side -->
+                    <!-- Left Side (Updated with View Selectors) -->
+                    <div class="calendar-card">
+                        <!-- istockphoto-1471611455-2048x2048.jpg ke mutabik updated header -->
+                        <div class="calendar-header">
 
-                <!-- Header -->
-                <div class="drawer-header">
-                    <h2>Task Filters</h2>
-                    <button class="close-btn" id="closeFilter">&times;</button>
-                </div>
+                            <!-- Left Side: View Group -->
+                            <div class="calendar-view-selector">
+                                <span class="view-label">Calendar View</span>
+                                <div class="view-btn-group">
+                                    <button class="view-btn" data-view="day">Day</button>
+                                    <button class="view-btn" data-view="week">Week</button>
+                                    <button class="view-btn active" data-view="month">Month</button>
+                                </div>
+                            </div>
 
-                <!-- Search -->
-                <div class="filter-group">
-                    <label>Search Task</label>
-                    <input type="text" id="taskSearch" placeholder="Search by task name...">
-                </div>
+                            <!-- Right Side: Navigation Buttons -->
+                            <div class="calendar-navigation">
+                                <button id="prevMonth">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </button>
 
-                <!-- Priority -->
-                <div class="filter-group">
-                    <label>Priority</label>
+                                <h2 id="monthYear"></h2>
 
-                    <label><input type="radio" name="priority" value="" checked> All</label>
-                    <label><input type="radio" name="priority" value="High"> High</label>
-                    <label><input type="radio" name="priority" value="Medium"> Medium</label>
-                    <label><input type="radio" name="priority" value="Low"> Low</label>
-                </div>
+                                <button id="nextMonth">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
 
-                <!-- Sort -->
-                <div class="filter-group">
-                    <label>Sort By</label>
+                        <div class="weekdays">
+                            <span>Sun</span>
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                        </div>
 
-                    <select id="sortType">
-                        <option value="">None</option>
-                        <option value="az">A - Z</option>
-                        <option value="za">Z - A</option>
-                        <option value="high">Priority (High → Low)</option>
-                        <option value="low">Priority (Low → High)</option>
-                    </select>
-                </div>
+                        <div id="calendarGrid" class="calendar-grid"></div>
+                    </div>
 
+                    <!-- Right Side -->
+                    <div class="upcoming-card">
 
-                <!-- Buttons -->
-                <div class="drawer-buttons">
-                    <button class="reset-btn" type="button">Reset</button>
-                    <button class="apply-btn" type="button">Apply</button>
-                </div>
+                        <div class="upcoming-header">
+                            <h2>Upcoming Tasks</h2>
+                            <span>Next 3 Days</span>
+                        </div>
 
-            </div>
+                        <div id="upcomingTimeline" class="timeline"></div>
 
-
-            <!-- ================= TASKS CONTAINER ================= -->
-            <div class="tasks-container" id="tasksContainer"></div>
-            <div id="pagination" class="pagination"></div>
-
-            <!-- No Results -->
-            <div id="noResults" style="display:none; text-align:center; margin-top:20px;">
-                No Result found
-            </div>
-
-            <!-- Link Card -->
-            <div id="noResults">
-                No Result Found
-            </div>
-            
-            <div class="edit-modal" id="editModal">
-
-                <div class="edit-modal-content">
-
-                    <button class="close-modal" id="closeEdit">×</button>
-
-                    <h2>Edit Task</h2>
-
-                    <input type="text" id="editTaskName" placeholder="Task Name">
-
-                    <select id="editTaskStatus">
-                        <option value="pending">Pending</option>
-                        <option value="progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                    </select>
-
-                    <button id="saveChanges" class="save-btn">
-                        Save Changes
-                    </button>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="task-popup" id="taskPopup">
+                    <div class="popup-box">
 
+                        <div class="popup-top">
+                            <h3>Tasks</h3>
 
-            <script src="completed.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                            <button id="closePopup">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
 
+                        <div id="popupTasks"></div>
 
-</body>
+                    </div>
+                </div>
+            </main>
+            <script src="calendar.js"></script>
 
 </html>
+</body>

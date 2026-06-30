@@ -31,60 +31,237 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // =========================
-    // REGISTER
-    // =========================
+// TOAST
+// =========================
 
-    registerForm.addEventListener("submit", (e) => {
+function showToast(message, type = "success") {
 
-        e.preventDefault();
+    const toast = document.getElementById("toast");
 
-        alert("Registration Successful!");
+    toast.textContent = message;
 
-        registerForm.reset();
+    toast.className = "";
 
-        loginTab.click();
+    toast.classList.add(type);
+    toast.classList.add("show");
 
-    });
+    setTimeout(() => {
 
-    // =========================
-    // LOGIN
-    // =========================
+        toast.classList.remove("show");
 
-    loginForm.addEventListener("submit", (e) => {
+    }, 3000);
 
-        e.preventDefault();
+}
 
-        const username =
-            document.getElementById("loginUsername").value.trim();
+// =========================
+// REGISTER
+// =========================
 
-        const password =
-            document.getElementById("loginPassword").value.trim();
+registerForm.addEventListener("submit", (e) => {
 
-        if (
-            username === "admin123" &&
-            password === "admin@123"
-        ) {
+    e.preventDefault();
 
-            alert("Login Successful!");
+    const username = document
+    .getElementById("registerName")
+    .value
+    .trim();
 
-            localStorage.setItem(
-                "isLoggedIn",
-                "true"
-            );
+    const email = document
+        .getElementById("registerEmail")
+        .value
+        .trim();
 
-            window.location.href = "dashboard.html";
+    const password = document
+        .getElementById("registerPassword")
+        .value
+        .trim();
 
-        } else {
+    if (!username || !email || !password) {
+        showToast(
+    "Please fill all fields",
+    "error"
+);
+        return;
+    }
 
-            alert(
-                "Invalid Username or Password\n\nUsername: admin123\nPassword: admin@123"
-            );
+let users = JSON.parse(
+    localStorage.getItem("users")
+) || [];
 
-        }
-    });
+// Duplicate Username
+const usernameExists = users.some(
+    user => user.username === username
+);
+
+if (usernameExists) {
+
+    showToast(
+    "Username already exists",
+    "error"
+);
+    return;
+
+}
+
+// Duplicate Email
+const emailExists = users.some(
+    user => user.email === email
+);
+
+if (emailExists) {
+
+    showToast(
+    "Email already registered",
+    "error"
+);
+    return;
+
+}
+
+const user = {
+    id: Date.now(),
+    username,
+    email,
+    password
+};
+
+users.push(user);
+
+localStorage.setItem(
+    "users",
+    JSON.stringify(users)
+);
+
+showToast(
+    "Registration Successful 🎉",
+    "success"
+);
+
+registerForm.reset();
+
+loginTab.click();
 
 });
 
+// =========================
+// LOGIN
+// =========================
+
+loginForm.addEventListener("submit", (e) => {
+
+    e.preventDefault();
+
+    const username = document
+        .getElementById("loginUsername")
+        .value
+        .trim();
+
+    const password = document
+        .getElementById("loginPassword")
+        .value
+        .trim();
+
+const users = JSON.parse(
+    localStorage.getItem("users")
+) || [];
+
+// Demo Admin Login
+if (
+    username === "admin123" &&
+    password === "admin@123"
+) {
+
+    const adminUser = {
+    id: 0,
+    username: "Krish Garg",
+    email: "admin@example.com"
+};
+
+    localStorage.setItem(
+        "isLoggedIn",
+        "true"
+    );
+
+    localStorage.setItem(
+        "loggedInUser",
+        JSON.stringify(adminUser)
+    );
+
+    showToast(
+        "Admin Login Successful 🎉",
+        "success"
+    );
+
+    setTimeout(() => {
+
+        window.location.href = "dashboard.html";
+
+    }, 1200);
+
+    return;
+
+}
+
+// Registered Users Login
+const savedUser = users.find(user =>
+    user.username === username &&
+    user.password === password
+);
+
+if (!savedUser) {
+
+    showToast(
+        "Invalid Username or Password",
+        "error"
+    );
+
+    return;
+
+}
+
+localStorage.setItem(
+    "isLoggedIn",
+    "true"
+);
+
+localStorage.setItem(
+    "loggedInUser",
+    JSON.stringify(savedUser)
+);
+
+showToast(
+    "Login Successful 🎉",
+    "success"
+);
+
+setTimeout(() => {
+
+    window.location.href = "dashboard.html";
+
+}, 1200);
+
+showToast(
+    "Login Successful 🎉",
+    "success"
+);
+
+localStorage.setItem(
+    "isLoggedIn",
+    "true"
+);
+
+localStorage.setItem(
+    "loggedInUser",
+    JSON.stringify(savedUser)
+);
+
+setTimeout(() => {
+
+    window.location.href = "dashboard.html";
+
+}, 1200);
+
+});
 // PASSWORD TOGGLE
 
 const eyeIcons = document.querySelectorAll(".password-box i");
@@ -112,5 +289,7 @@ eyeIcons.forEach(icon => {
         }
 
     });
+
+});
 
 });

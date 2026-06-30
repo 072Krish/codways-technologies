@@ -603,3 +603,38 @@ body {
     }
 
 }
+
+#toast{
+    position:fixed;
+    top:25px;
+    right:25px;
+    min-width:300px;
+    max-width:380px;
+    padding:16px 20px;
+    border-radius:12px;
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    transform:translateX(450px);
+    opacity:0;
+    transition:.35s;
+    z-index:99999;
+    box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
+#toast.show{
+    transform:translateX(0);
+    opacity:1;
+}
+
+#toast.success{
+    background:#22c55e;
+}
+
+#toast.error{
+    background:#ef4444;
+}
+
+#toast.info{
+    background:#3b82f6;
+}
