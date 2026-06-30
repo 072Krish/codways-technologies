@@ -641,4 +641,3 @@ function resetLogoutTimer() {
 
 // Start Timer
 resetLogoutTimer();
-
