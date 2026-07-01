@@ -119,7 +119,6 @@ window.addEventListener("resize", () => {
     // ================= COUNTS =================
 
     function updateCounts() {
-        // --- 1. CURRENT BOARD COUNTS ---
         const pending = document.querySelectorAll("#pendingTasks .task-card").length;
         const progress = document.querySelectorAll("#progressTasks .task-card").length;
         const completed = document.querySelectorAll("#completedTasks .task-card").length;
@@ -142,7 +141,6 @@ window.addEventListener("resize", () => {
         document.getElementById("priorityTasksCount").textContent = highPriority;
         document.getElementById("productivityCount").textContent = productivity + "%";
 
-        // --- 2. TODAY'S PROGRESS & OVERVIEW LOGIC ---
         const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
         const todayStr = new Date().toDateString();
 
@@ -155,7 +153,6 @@ window.addEventListener("resize", () => {
         const todayCompleted = todayTasks.filter(task => task.category === "completed").length;
         const todayProgressPercent = todayTotal > 0 ? Math.round((todayCompleted / todayTotal) * 100) : 0;
 
-        // Right Panel Card Progress
         const progressCardCircle = document.querySelector(".progress-card .progress-circle span");
         if (progressCardCircle) {
             progressCardCircle.textContent = todayProgressPercent + "%";
@@ -163,7 +160,6 @@ window.addEventListener("resize", () => {
             progressCardCircle.parentElement.style.background = `conic-gradient(#6d4aff ${deg}deg, #ece8ff 0deg)`;
         }
 
-        // Productivity Overview Ring (Daily)
         const dailyCircleSpan = document.querySelector(".circle-purple span");
         if (dailyCircleSpan) {
             dailyCircleSpan.textContent = todayProgressPercent + "%";
@@ -171,11 +167,9 @@ window.addEventListener("resize", () => {
             dailyCircleSpan.parentElement.style.background = `conic-gradient(#6d4aff ${deg}deg, #ece8ff 0deg)`;
         }
 
-        // --- 3. WEEKLY & MONTHLY LOGIC ---
         const now = new Date();
         const oneDayMs = 24 * 60 * 60 * 1000;
 
-        // Weekly
         const weeklyTasks = tasks.filter(task => {
             if (!task.createdAt) return false;
             return (now - new Date(task.createdAt)) <= (7 * oneDayMs);
@@ -191,7 +185,6 @@ window.addEventListener("resize", () => {
             weeklyCircleSpan.parentElement.style.background = `conic-gradient(#22c55e ${deg}deg, #e8faef 0deg)`;
         }
 
-        // Monthly
         const monthlyTasks = tasks.filter(task => {
             if (!task.createdAt) return false;
             return (now - new Date(task.createdAt)) <= (30 * oneDayMs);
