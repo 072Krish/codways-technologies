@@ -5,24 +5,28 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Settings</title>
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 
     <!-- CSS -->
-    <link rel="stylesheet"
-          href="settings.css">
+    <link rel="stylesheet" href="settings.css">
 
 </head>
 
 <body>
 
-        <div class="dashboard">
+    <div class="dashboard">
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
@@ -69,7 +73,7 @@
                         <i class="fa-regular fa-circle-check"></i>
                         Completed Tasks
                     </li>
-                    
+
                     <li onclick="window.location.href='calendar.html'">
                         <i class="fa-regular fa-calendar"></i>
                         Calendar
@@ -163,311 +167,294 @@
 
             </header>
 
-        <!-- ========================= -->
-        <!-- PROFILE CARD -->
-        <!-- ========================= -->
+            <!-- ========================= -->
+            <!-- PROFILE CARD -->
+            <!-- ========================= -->
 
-        <section class="profile-card">
+            <section class="profile-card">
 
-            <div class="profile-left">
+                <div class="profile-info">
 
-                <div class="profile-image">
-
-                    <img
-    id="profilePreview"
-    src="https://api.dicebear.com/7.x/initials/svg?seed=L"
-    alt="Profile">
-
-                    <label for="profileUpload"
-                           class="camera-btn">
-
-                        <i class="fa-solid fa-camera"></i>
-
-                    </label>
-
-                    <input type="file"
-                           id="profileUpload"
-                           accept="image/*">
-
-                </div>
-
-                <div class="profile-details">
-
-                    <h2 id="profileName">
-                        Krish Garg
-                    </h2>
+                    <h2 id="profileName">Lakshay</h2>
 
                     <p id="profileEmail">
-                        krish@example.com
+                        <i class="fa-solid fa-envelope"></i>
+                        lakshay@gmail.com
                     </p>
+                    <div class="profile-meta">
+
+                        <div class="meta-item streak">
+                            <i class="fa-solid fa-fire"></i>
+                            <span id="streakText">0 Day Streak</span>
+                        </div>
+
+                        <div class="meta-item member">
+                            <i class="fa-regular fa-calendar"></i>
+                            <span>Member since 2026</span>
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="profile-right">
 
-        </section>
+                    <div class="mini-calendar">
+                        <span class="day" id="calendarDay">01</span>
+                        <span class="month" id="calendarMonth">JUL</span>
+                        <span class="week-day" id="calendarWeekday">
+                            Thursday
+                        </span>
+                    </div>
 
-        <!-- ========================= -->
-        <!-- PERSONAL INFO -->
-        <!-- ========================= -->
-
-        <section class="settings-card">
-
-            <div class="card-title">
-
-                <i class="fa-solid fa-user"></i>
-
-                <h3>Personal Information</h3>
-
-            </div>
-
-            <div class="form-grid">
-
-                <div class="input-group">
-
-                    <label>First Name</label>
-
-                    <input type="text"
-                           id="firstName">
+                    <div class="productivity-badge">
+                        <i class="fa-solid fa-bolt"></i>
+                        Highly Productive
+                    </div>
 
                 </div>
 
-                <div class="input-group">
+            </section>
 
-                    <label>Last Name</label>
+            <!-- ========================= -->
+            <!-- PERSONAL INFO -->
+            <!-- ========================= -->
 
-                    <input type="text"
-                           id="lastName">
+            <section class="settings-card">
 
-                </div>
+                <div class="card-title">
 
-                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
 
-                    <label>Email</label>
-
-                    <input type="email"
-                           id="email">
+                    <h3>Personal Information</h3>
 
                 </div>
 
-                <div class="input-group">
+                <div class="form-grid">
 
-                    <label>Phone</label>
+                    <div class="input-group">
 
-                    <input type="tel"
-                           id="phone">
+                        <label>First Name</label>
+
+                        <input type="text" id="firstName">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Last Name</label>
+
+                        <input type="text" id="lastName">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Email</label>
+
+                        <input type="email" id="email">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Phone</label>
+
+                        <input type="tel" id="phone">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Username</label>
+
+                        <input type="text" id="username">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Date of Birth</label>
+
+                        <input type="date" id="dob">
+
+                    </div>
 
                 </div>
 
-                <div class="input-group">
+            </section>
 
-                    <label>Username</label>
+            <!-- ========================= -->
+            <!-- ADDRESS -->
+            <!-- ========================= -->
 
-                    <input type="text"
-                           id="username">
+            <!-- ========================= -->
+            <!-- ACADEMIC INFORMATION -->
+            <!-- ========================= -->
+
+            <section class="settings-card">
+
+                <div class="card-title">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                    <h3>Academic Information</h3>
 
                 </div>
 
-                <div class="input-group">
+                <div class="form-grid">
 
-                    <label>Date of Birth</label>
+                    <div class="input-group">
 
-                    <input type="date"
-                           id="dob">
+                        <label>Institution Name</label>
+
+                        <input type="text" id="institution" placeholder="Enter your school, college or institute">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Education Level</label>
+
+                        <select id="educationLevel">
+
+                            <option value="">Select Education Level</option>
+
+                            <option>School</option>
+
+                            <option>High School</option>
+
+                            <option>Diploma</option>
+
+                            <option>Bachelor's Degree</option>
+
+                            <option>Master's Degree</option>
+
+                            <option>Doctorate (PhD)</option>
+
+                            <option>Other</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Current Class / Course</label>
+
+                        <input type="text" id="currentCourse" placeholder="e.g. Class 10, BCA, B.Tech CSE">
+
+                    </div>
+
+                    <div class="input-group">
+
+                        <label>Skills</label>
+
+                        <input type="text" id="skills" placeholder="e.g. JavaScript, Python, Public Speaking">
+
+                    </div>
+
+                    <div class="input-group full-width">
+
+                        <label>Career Goal</label>
+
+                        <textarea id="careerGoal" rows="4" placeholder="Tell us about your future goal..."></textarea>
+
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
-        </section>
+            <!-- ========================= -->
+            <!-- SECURITY -->
+            <!-- ========================= -->
 
-        <!-- ========================= -->
-        <!-- ADDRESS -->
-        <!-- ========================= -->
+            <section class="settings-card">
 
-        <!-- ========================= -->
-<!-- ACADEMIC INFORMATION -->
-<!-- ========================= -->
+                <div class="card-title">
 
-<section class="settings-card">
+                    <i class="fa-solid fa-lock"></i>
 
-    <div class="card-title">
+                    <h3>Security</h3>
 
-        <i class="fa-solid fa-graduation-cap"></i>
+                </div>
 
-        <h3>Academic Information</h3>
+                <div class="password-grid">
 
+                    <div class="password-box">
+
+                        <label>Current Password</label>
+
+                        <div class="password-input">
+
+                            <input type="password" id="currentPassword">
+
+                            <i class="fa-solid fa-eye togglePassword"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="password-box">
+
+                        <label>New Password</label>
+
+                        <div class="password-input">
+
+                            <input type="password" id="newPassword">
+
+                            <i class="fa-solid fa-eye togglePassword"></i>
+
+                        </div>
+
+                    </div>
+
+                    <div class="password-box">
+
+                        <label>Confirm Password</label>
+
+                        <div class="password-input">
+
+                            <input type="password" id="confirmPassword">
+
+                            <i class="fa-solid fa-eye togglePassword"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- ========================= -->
+            <!-- BUTTONS -->
+            <!-- ========================= -->
+
+            <section class="button-group">
+
+                <button class="cancel-btn" id="cancelBtn">
+
+                    Cancel
+
+                </button>
+
+                <button class="save-btn" id="saveBtn">
+
+                    Save Changes
+
+                </button>
+
+            </section>
+
+        </main>
+        
     </div>
 
-    <div class="form-grid">
-
-        <div class="input-group">
-
-            <label>Institution Name</label>
-
-            <input
-                type="text"
-                id="institution"
-                placeholder="Enter your school, college or institute">
-
-        </div>
-
-        <div class="input-group">
-
-            <label>Education Level</label>
-
-            <select id="educationLevel">
-
-                <option value="">Select Education Level</option>
-
-                <option>School</option>
-
-                <option>High School</option>
-
-                <option>Diploma</option>
-
-                <option>Bachelor's Degree</option>
-
-                <option>Master's Degree</option>
-
-                <option>Doctorate (PhD)</option>
-
-                <option>Other</option>
-
-            </select>
-
-        </div>
-
-        <div class="input-group">
-
-            <label>Current Class / Course</label>
-
-            <input
-                type="text"
-                id="currentCourse"
-                placeholder="e.g. Class 10, BCA, B.Tech CSE">
-
-        </div>
-
-        <div class="input-group">
-
-            <label>Skills</label>
-
-            <input
-                type="text"
-                id="skills"
-                placeholder="e.g. JavaScript, Python, Public Speaking">
-
-        </div>
-
-        <div class="input-group full-width">
-
-            <label>Career Goal</label>
-
-            <textarea
-                id="careerGoal"
-                rows="4"
-                placeholder="Tell us about your future goal..."></textarea>
-
-        </div>
-
-    </div>
-
-</section>
-
-        <!-- ========================= -->
-        <!-- SECURITY -->
-        <!-- ========================= -->
-
-        <section class="settings-card">
-
-            <div class="card-title">
-
-                <i class="fa-solid fa-lock"></i>
-
-                <h3>Security</h3>
-
-            </div>
-
-            <div class="password-grid">
-
-                <div class="password-box">
-
-                    <label>Current Password</label>
-
-                    <div class="password-input">
-
-                        <input type="password"
-                               id="currentPassword">
-
-                        <i class="fa-solid fa-eye togglePassword"></i>
-
-                    </div>
-
-                </div>
-
-                <div class="password-box">
-
-                    <label>New Password</label>
-
-                    <div class="password-input">
-
-                        <input type="password"
-                               id="newPassword">
-
-                        <i class="fa-solid fa-eye togglePassword"></i>
-
-                    </div>
-
-                </div>
-
-                <div class="password-box">
-
-                    <label>Confirm Password</label>
-
-                    <div class="password-input">
-
-                        <input type="password"
-                               id="confirmPassword">
-
-                        <i class="fa-solid fa-eye togglePassword"></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-        <!-- ========================= -->
-        <!-- BUTTONS -->
-        <!-- ========================= -->
-
-        <section class="button-group">
-
-            <button class="cancel-btn"
-                    id="cancelBtn">
-
-                Cancel
-
-            </button>
-
-            <button class="save-btn"
-                    id="saveBtn">
-
-                Save Changes
-
-            </button>
-
-        </section>
-
-    </main>
-</div>
-    <div id="toast"></div>
+    <div id="toast" class="toast"></div>
 
     <script src="settings.js"></script>
 
 </body>
-
 </html>

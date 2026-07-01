@@ -122,7 +122,14 @@ const user = {
     id: Date.now(),
     username,
     email,
-    password
+    password,
+
+    streak: 1,
+    lastLoginDate:
+        new Date().toDateString(),
+
+    createdAt:
+        new Date().toISOString()
 };
 
 users.push(user);
@@ -218,6 +225,44 @@ if (!savedUser) {
     return;
 
 }
+
+const today = new Date().toDateString();
+
+if (!savedUser.lastLoginDate) {
+
+    savedUser.streak = 1;
+    savedUser.lastLoginDate = today;
+}
+
+else {
+
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    const diff = Math.floor(
+        (new Date(today) -
+        new Date(savedUser.lastLoginDate))
+        / oneDay
+    );
+
+    if (diff === 1) {
+
+        savedUser.streak =
+            (savedUser.streak || 0) + 1;
+
+        savedUser.lastLoginDate = today;
+    }
+
+    else if (diff > 1) {
+
+        savedUser.streak = 1;
+        savedUser.lastLoginDate = today;
+    }
+}
+
+localStorage.setItem(
+    "users",
+    JSON.stringify(users)
+);
 
 localStorage.setItem(
     "isLoggedIn",
