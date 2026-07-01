@@ -344,7 +344,7 @@ body {
 }
 
 .welcome h1 {
-    font-size: 32px;
+    font-size: 27px;
     font-weight: 700;
     color: #111827;
     margin-bottom: 4px;
@@ -423,30 +423,54 @@ body {
     justify-content: center;
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #ffffff;
-    padding: 8px 14px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+.profile{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:#fff;
+    padding:8px 14px;
+    border-radius:18px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+    transition:.3s ease;
+    cursor:pointer;
+    width:max-content;
+
 }
 
-.profile img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+.profile:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 32px rgba(0,0,0,.12);
 }
 
-.profile h4 {
-    font-size: 14px;
-    color: #111827;
+.profile img{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    object-fit:cover;
+    flex-shrink:0;
+
 }
 
-.profile span {
-    font-size: 12px;
-    color: #6b7280;
+.profile div{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+}
+
+.profile h4{
+    margin:0;
+    font-size:15px;
+    font-weight:700;
+    color:#111827;
+    line-height:1.2;
+}
+
+.profile span{
+    margin-top:4px;
+    font-size:13px;
+    color:#6B7280;
+    font-weight:500;
 }
 
 .theme-toggle{
@@ -1325,16 +1349,28 @@ body.dark-mode .notification {
 }
 
 body.dark-mode .profile {
-    background: #1e293b !important;
-    border: 1px solid #334155 !important;
+    background: #1e293b;
+    border: 1px solid #334155;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, .45);
+
+}
+
+body.dark-mode .profile:hover {
+    background: #273549;
+    border-color: #475569;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, .55);
+}
+
+body.dark-mode .profile img {
+    border: 2px solid #334155;
 }
 
 body.dark-mode .profile h4 {
-    color: #ffffff !important;
+    color: #f8fafc;
 }
 
 body.dark-mode .profile span {
-    color: #94a3b8 !important;
+    color: #94a3b8;
 }
 
 body.dark-mode .theme-toggle {
@@ -1767,4 +1803,25 @@ EXTRA SMALL
         justify-content:center;
     }
 
+}
+
+@media (max-width: 300px){
+    .welcome h1{
+        font-size:1.1rem;
+        line-height:1.2;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 350px) {
+    .welcome h1{
+        font-size:1.4rem;
+        line-height:1.2;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 530px) {
+    .welcome h1{
+        font-size:1.6rem;
+        line-height:1.2;
+    }
 }

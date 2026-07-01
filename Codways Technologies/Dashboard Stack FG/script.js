@@ -22,13 +22,16 @@ const loggedInUser = JSON.parse(
 if (loggedInUser) {
 
     const userName = document.getElementById("userName");
+    const welcomeTitle = document.getElementById("welcomeTitle");
 
     if (userName) {
-
         userName.textContent = loggedInUser.username;
-
     }
 
+    if (welcomeTitle) {
+        welcomeTitle.textContent =
+            `Welcome Back, ${loggedInUser.username} 👋`;
+    }
 }
 
 // Helper function jo dono classes ko ek saath manage karegi

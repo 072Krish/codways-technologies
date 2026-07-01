@@ -72,7 +72,7 @@
                         Calendar
                     </li>
 
-                    <li>
+                    <li onclick="window.location.href='settings.html'">
                         <i class="fa-solid fa-gear"></i>
                         Settings
                     </li>
@@ -142,10 +142,17 @@
                         <i class="fa-solid fa-bars"></i>
                     </button>
 
-                    <div class="welcome">
-                        <h1>Welcome back, Krish! 👋</h1>
-                        <p>Track your progress and achieve more today.</p>
-                    </div>
+<div class="welcome">
+
+    <h1 id="welcomeTitle">
+        Welcome Back 👋
+    </h1>
+
+    <p id="welcomeText">
+        Let's achieve today's goals together.
+    </p>
+
+</div>
 
                 </div>
 
@@ -165,12 +172,21 @@
                     </div>
 
                     <div class="profile">
-                        <img src="https://i.pravatar.cc/60?img=57" alt="">
-                        <div>
-                            <h4>Krish Garg</h4>
-                            <span>Productive User</span>
-                        </div>
-                    </div>
+
+    <img
+        id="dashboardProfileImage"
+        src="https://i.pravatar.cc/60?img=57"
+        alt="Profile">
+
+    <div>
+
+        <h4 id="userName"></h4>
+
+        <span>Productive User</span>
+
+    </div>
+
+</div>
 
                 </div>
 
