@@ -1,6 +1,4 @@
-// ===============================
 // FIREBASE IMPORTS
-// ===============================
 
 import { auth, db } from "../../firebase/firebase-config.js";
 
@@ -16,26 +14,17 @@ import {
 
 import { showToast } from "./common.js";
 
-
-// ===============================
 // FORM
-// ===============================
 
 const signupForm = document.getElementById("signupForm");
 const signupBtn = document.querySelector(".signup-btn");
 
-// ===============================
 // SIGNUP
-// ===============================
 
 signupForm.addEventListener("submit", async (e) => {
-
     e.preventDefault();
 
-    // ===============================
     // GET FORM DATA
-    // ===============================
-
     const name = document
         .getElementById("signupName")
         .value
@@ -58,38 +47,23 @@ signupForm.addEventListener("submit", async (e) => {
         'input[name="role"]:checked'
     ).value;
 
-
-    // ===============================
     // VALIDATION
-    // ===============================
-
     if (!name || !email || !password || !confirmPassword) {
-
         showToast("Please fill all fields.", "warning");
-
         return;
-
     }
 
     if (password !== confirmPassword) {
-
         showToast("Passwords do not match.", "error");
-
         return;
-
     }
 
     signupBtn.disabled = true;
+    signupBtn.textContent = "Creating account...";
 
-signupBtn.textContent = "Creating account...";
-
-    // ===============================
-    // STEP 6
     // CREATE FIREBASE USER
-    // ===============================
 
     try {
-
         const userCredential =
             await createUserWithEmailAndPassword(
                 auth,
@@ -99,80 +73,52 @@ signupBtn.textContent = "Creating account...";
 
         const user = userCredential.user;
 
-        // ===============================
-// SAVE USER DATA TO FIRESTORE
-// ===============================
+        // SAVE USER DATA TO FIRESTORE
 
-await setDoc(doc(db, "users", user.uid), {
+        await setDoc(doc(db, "users", user.uid), {
+            name: name,
+            email: email,
+            role: role,
+            createdAt: serverTimestamp()
+        });
 
-    name: name,
+        // Success Toast
 
-    email: email,
+        showToast("Account created successfully.", "success");
 
-    role: role,
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1200);
 
-    createdAt: serverTimestamp()
+        window.location.href = "login.html";
 
-});
-
-// Success Toast
-
-showToast("Account created successfully.", "success");
-
-// Wait 1.2 seconds
-
-setTimeout(() => {
-
-    window.location.href = "login.html";
-
-}, 1200);
-
-window.location.href = "login.html";
-
-} catch (error) {
-
-    Swal.fire({
-
-    icon: "error",
-
-    title: "Oops...",
-
-    text: error.message
-
-});
-
-    console.error(error);
-
-    signupBtn.disabled = false;
-
-    signupBtn.textContent = "Create Account";
-
-}
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: error.message
+        });
+        console.error(error);
+        signupBtn.disabled = false;
+        signupBtn.textContent = "Create Account";
+    }
 });
 
 const togglePasswordIcons =
     document.querySelectorAll(".toggle-password");
 
 togglePasswordIcons.forEach(icon => {
-
     icon.addEventListener("click", () => {
-
         const input = icon.previousElementSibling;
 
         if (input.type === "password") {
-
             input.type = "text";
             icon.classList.remove("fa-eye");
             icon.classList.add("fa-eye-slash");
-
         } else {
-
             input.type = "password";
             icon.classList.remove("fa-eye-slash");
             icon.classList.add("fa-eye");
-
         }
-
     });
-
 });
