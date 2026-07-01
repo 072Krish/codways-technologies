@@ -119,80 +119,98 @@ window.addEventListener("resize", () => {
     // ================= COUNTS =================
 
     function updateCounts() {
+        // --- 1. CURRENT BOARD COUNTS ---
+        const pending = document.querySelectorAll("#pendingTasks .task-card").length;
+        const progress = document.querySelectorAll("#progressTasks .task-card").length;
+        const completed = document.querySelectorAll("#completedTasks .task-card").length;
+        const total = pending + progress + completed;
+        const highPriority = document.querySelectorAll(".task-card .priority.high").length;
+        const productivity = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-        const pending =
-            document.querySelectorAll(
-                "#pendingTasks .task-card"
-            ).length;
+        const pendingCount = document.getElementById("pendingCount");
+        const progressCount = document.getElementById("progressCount");
+        const completedCount = document.getElementById("completedCount");
 
-        const progress =
-            document.querySelectorAll(
-                "#progressTasks .task-card"
-            ).length;
+        if (pendingCount) pendingCount.textContent = pending;
+        if (progressCount) progressCount.textContent = progress;
+        if (completedCount) completedCount.textContent = completed;
 
-        const completed =
-            document.querySelectorAll(
-                "#completedTasks .task-card"
-            ).length;
+        document.getElementById("totalTasksCount").textContent = total;
+        document.getElementById("completedTasksCount").textContent = completed;
+        document.getElementById("pendingTasksCount").textContent = pending;
+        document.getElementById("progressTasksCount").textContent = progress;
+        document.getElementById("priorityTasksCount").textContent = highPriority;
+        document.getElementById("productivityCount").textContent = productivity + "%";
 
-        const total =
-            pending + progress + completed;
+        // --- 2. TODAY'S PROGRESS & OVERVIEW LOGIC ---
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const todayStr = new Date().toDateString();
 
-        const highPriority =
-            document.querySelectorAll(
-                ".task-card .priority.high"
-            ).length;
+        const todayTasks = tasks.filter(task => {
+            if (!task.createdAt) return false;
+            return new Date(task.createdAt).toDateString() === todayStr;
+        });
 
-        const productivity =
-            total > 0
-                ? Math.round((completed / total) * 100)
-                : 0;
+        const todayTotal = todayTasks.length;
+        const todayCompleted = todayTasks.filter(task => task.category === "completed").length;
+        const todayProgressPercent = todayTotal > 0 ? Math.round((todayCompleted / todayTotal) * 100) : 0;
 
-        // Task Board Counts
+        // Right Panel Card Progress
+        const progressCardCircle = document.querySelector(".progress-card .progress-circle span");
+        if (progressCardCircle) {
+            progressCardCircle.textContent = todayProgressPercent + "%";
+            const deg = (todayProgressPercent / 100) * 360;
+            progressCardCircle.parentElement.style.background = `conic-gradient(#6d4aff ${deg}deg, #ece8ff 0deg)`;
+        }
 
-        const pendingCount =
-            document.getElementById("pendingCount");
+        // Productivity Overview Ring (Daily)
+        const dailyCircleSpan = document.querySelector(".circle-purple span");
+        if (dailyCircleSpan) {
+            dailyCircleSpan.textContent = todayProgressPercent + "%";
+            const deg = (todayProgressPercent / 100) * 360;
+            dailyCircleSpan.parentElement.style.background = `conic-gradient(#6d4aff ${deg}deg, #ece8ff 0deg)`;
+        }
 
-        const progressCount =
-            document.getElementById("progressCount");
+        // --- 3. WEEKLY & MONTHLY LOGIC ---
+        const now = new Date();
+        const oneDayMs = 24 * 60 * 60 * 1000;
 
-        const completedCount =
-            document.getElementById("completedCount");
+        // Weekly
+        const weeklyTasks = tasks.filter(task => {
+            if (!task.createdAt) return false;
+            return (now - new Date(task.createdAt)) <= (7 * oneDayMs);
+        });
+        const weeklyTotal = weeklyTasks.length;
+        const weeklyCompleted = weeklyTasks.filter(task => task.category === "completed").length;
+        const weeklyPercent = weeklyTotal > 0 ? Math.round((weeklyCompleted / weeklyTotal) * 100) : 0;
 
-        if (pendingCount)
-            pendingCount.textContent = pending;
+        const weeklyCircleSpan = document.querySelector(".circle-green span");
+        if (weeklyCircleSpan) {
+            weeklyCircleSpan.textContent = weeklyPercent + "%";
+            const deg = (weeklyPercent / 100) * 360;
+            weeklyCircleSpan.parentElement.style.background = `conic-gradient(#22c55e ${deg}deg, #e8faef 0deg)`;
+        }
 
-        if (progressCount)
-            progressCount.textContent = progress;
+        // Monthly
+        const monthlyTasks = tasks.filter(task => {
+            if (!task.createdAt) return false;
+            return (now - new Date(task.createdAt)) <= (30 * oneDayMs);
+        });
+        const monthlyTotal = monthlyTasks.length;
+        const monthlyCompleted = monthlyTasks.filter(task => task.category === "completed").length;
+        const monthlyPercent = monthlyTotal > 0 ? Math.round((monthlyCompleted / monthlyTotal) * 100) : 0;
 
-        if (completedCount)
-            completedCount.textContent = completed;
+        const monthlyCircleSpan = document.querySelector(".circle-orange span");
+        if (monthlyCircleSpan) {
+            monthlyCircleSpan.textContent = monthlyPercent + "%";
+            const deg = (monthlyPercent / 100) * 360;
+            monthlyCircleSpan.parentElement.style.background = `conic-gradient(#f59e0b ${deg}deg, #fff4dc 0deg)`;
+        }
 
-        // Stats Cards
-
-        document.getElementById(
-            "totalTasksCount"
-        ).textContent = total;
-
-        document.getElementById(
-            "completedTasksCount"
-        ).textContent = completed;
-
-        document.getElementById(
-            "pendingTasksCount"
-        ).textContent = pending;
-
-        document.getElementById(
-            "progressTasksCount"
-        ).textContent = progress;
-
-        document.getElementById(
-            "priorityTasksCount"
-        ).textContent = highPriority;
-
-        document.getElementById(
-            "productivityCount"
-        ).textContent = productivity + "%";
+        const overviewText = document.querySelector(".overview-text");
+        if (overviewText) {
+            overviewText.textContent = `You have completed ${todayCompleted} out of ${todayTotal} tasks added today.`;
+        }
     }
 
     function loadTasks() {
